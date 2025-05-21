@@ -2,10 +2,10 @@ package com.cmaina.shipments.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
-
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val ShipmentsSmokeWhite = Color(0xFFf3f2f2)
+val ShipmentsPurple = Color(0xFF4b3491)
+val ShipmentsMirage = Color(0xFF14202d)
+val ShipmentsBrown = Color(0xFFd97136)
+val ShipmentsTeal = Color(0xFF4cb485)
+val ShipmentsTuna = Color(0xFF313644)
+val ShipmentsGrey = Color(0xFFaaaaaa)

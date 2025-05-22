@@ -15,4 +15,7 @@ sealed class Screen {
     @Serializable
     data object History: Screen()
 
+    @Serializable
+    data object Success: Screen()
+
 }

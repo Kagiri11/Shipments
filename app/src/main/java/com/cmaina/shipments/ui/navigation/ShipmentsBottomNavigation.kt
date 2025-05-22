@@ -2,8 +2,10 @@ package com.cmaina.shipments.ui.navigation
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination
@@ -14,7 +16,7 @@ import com.cmaina.shipments.ui.navigation.Screen.History
 import com.cmaina.shipments.ui.navigation.Screen.Home
 import com.cmaina.shipments.ui.navigation.Screen.Profile
 
-val TopLevelScreens: List<Screen> = listOf(Home, Profile, Calculate, History)
+val TopLevelScreens: List<Screen> = listOf(Home, Calculate, History, Profile)
 
 @Composable
 fun ShipmentsBottomNavigation(
@@ -43,7 +45,15 @@ fun RowScope.AddBottomNavigationItem(
         onClick = {
             navController.navigateToTopScreens(screen)
         },
-        icon = {}
+        icon = {
+            Icon(
+                imageVector = screen.icon,
+                contentDescription = screen.label
+            )
+        },
+        label = {
+            Text(text = screen.label)
+        }
     )
 }
 

@@ -40,7 +40,7 @@ val sampleTabsForScreen = getSampleTabItems()
 @Composable
 fun ShipmentHistoryScreen(
     viewModel: ShipmentHistoryViewModel = viewModel(),
-    onNavigateBack: () -> Unit = {}
+    onNavigateBack: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -137,7 +137,7 @@ fun ShipmentHistoryContent(
 @Composable
 fun ShipmentHistoryScreenPreview() {
     MaterialTheme { // Ensure your custom theme is applied if you have one
-        ShipmentHistoryScreen()
+        ShipmentHistoryScreen{}
     }
 }
 

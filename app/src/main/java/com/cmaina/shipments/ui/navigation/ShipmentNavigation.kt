@@ -36,7 +36,9 @@ fun ShipmentsNavigation(
         }
 
         composable<History> {
-            ShipmentHistoryScreen()
+            ShipmentHistoryScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
 
         composable<Success> {

@@ -39,7 +39,7 @@ fun RowScope.AddBottomNavigationItem(
     currentScreen: NavDestination?,
     navController: NavHostController
 ) {
-    val isSelected = currentScreen?.hierarchy?.any { it.route == screen.toString() } == true
+    val isSelected = currentScreen?.hierarchy?.any { it.route == screen::class.qualifiedName } == true
     NavigationBarItem(
         selected = isSelected,
         onClick = {

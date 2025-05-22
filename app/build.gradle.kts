@@ -54,6 +54,7 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.2.1") // Check for the latest version
     implementation("androidx.compose.material:material-icons-core:1.6.7") // For core icons
     implementation("androidx.compose.material:material-icons-extended:1.6.7") // For more icons
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

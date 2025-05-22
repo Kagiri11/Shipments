@@ -1,6 +1,7 @@
 package com.cmaina.shipments.ui.screens.history
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -20,9 +22,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cmaina.shipments.domain.model.Shipment
 import com.cmaina.shipments.ui.model.getSampleTabItems
 import com.cmaina.shipments.utils.getSampleShipments
@@ -35,14 +39,10 @@ val sampleTabsForScreen = getSampleTabItems()
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShipmentHistoryScreen(
-    // viewModel: ShipmentHistoryViewModel = hiltViewModel() // Example with Hilt
+    viewModel: ShipmentHistoryViewModel = viewModel(),
     onNavigateBack: () -> Unit = {}
 ) {
-    // val shipments by viewModel.shipments.collectAsState() // Example with ViewModel
-    val shipments = sampleShipmentsForScreen // Using sample data directly for now. This would be filtered based on selected tab
-    val tabs = sampleTabsForScreen
-
-    var selectedTabIndex by remember { mutableIntStateOf(0) }
+    val uiState by viewModel.uiState.collectAsState()
 
     // The Scaffold will be used later to add the TopAppBar and TabRow
     Scaffold(
@@ -57,19 +57,29 @@ fun ShipmentHistoryScreen(
                 .padding(innerPadding) // Apply padding from Scaffold
                 .fillMaxSize()
         ) {
-            ShipmentFilterTabs(
-                tabs = tabs,
-                selectedTabIndex = selectedTabIndex,
-                onTabSelected = { index ->
-                    selectedTabIndex = index
-                    // Here you would trigger data reloading/filtering
+            if (uiState.tabItems.isNotEmpty()) { // Show tabs only if available
+                ShipmentFilterTabs(
+                    tabs = uiState.tabItems,
+                    selectedTabIndex = uiState.selectedTabIndex,
+                    onTabSelected = { index ->
+                        viewModel.onTabSelected(index)
+                    }
+                )
+            }
+
+            // Handle loading state
+            if (uiState.isLoading) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
                 }
-                // The background is set within ShipmentFilterTabs
-            )
-            ShipmentHistoryContent(
-                shipments = shipments, // Pass the (potentially filtered) list
-                // Modifier is removed here as the Column above handles fillMaxSize
-            )
+            } else {
+                ShipmentHistoryContent(
+                    shipments = uiState.displayedShipments
+                )
+            }
         }
     }
 }
@@ -96,7 +106,9 @@ fun ShipmentHistoryContent(
         if (shipments.isEmpty()) {
             // Optional: Show a message if there are no shipments
             Column(
-                modifier = Modifier.fillMaxSize().padding(16.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
             ) {

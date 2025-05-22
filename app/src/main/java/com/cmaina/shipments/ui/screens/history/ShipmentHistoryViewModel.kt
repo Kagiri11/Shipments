@@ -29,7 +29,7 @@ class ShipmentHistoryViewModel : ViewModel() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             // Simulate network delay or data fetching
-            delay(1000) // Remove this in a real app
+            delay(1000) // TODO: Remove this in a real app
             allShipments = getSampleShipments() // Replace with actual data source call
 
             val calculatedTabItems = calculateTabItems(allShipments)

@@ -1,5 +1,6 @@
 package com.cmaina.shipments.ui.screens.home
 
+import com.cmaina.shipments.domain.model.search.ShipmentSearchResult
 import com.cmaina.shipments.domain.model.tracking.ActiveTrackingSummary
 import com.cmaina.shipments.domain.model.user.UserDisplayInfo
 import com.cmaina.shipments.domain.model.vehicles.VehicleOption
@@ -11,5 +12,10 @@ data class HomeUiState(
     val activeTrackingSummary: ActiveTrackingSummary? = null,
     val availableVehicles: List<VehicleOption> = emptyList(),
     val isLoading: Boolean = false, // To show a loading indicator for the whole screen
-    val errorMessage: String? = null // To display any errors
+    val errorMessage: String? = null, // To display any errors
+
+    // New fields for search functionality
+    val isSearchActive: Boolean = false, // True when search UI is active (back arrow visible, results shown)
+    val searchResults: List<ShipmentSearchResult> = emptyList(),
+    val isSearchLoading: Boolean = false // To show a loading indicator for search
 )

@@ -1,9 +1,10 @@
 package com.cmaina.shipments.domain.model
 
 import java.util.Date
+import java.util.UUID
 
 data class Shipment(
-    val id: String,
+    val id: String = UUID.randomUUID().toString(),
     val title: String, // e.g., "Arriving today!"
     val trackingNumber: String, // e.g., "#NEJ20089934122231"
     val origin: String, // e.g., "Atlanta"

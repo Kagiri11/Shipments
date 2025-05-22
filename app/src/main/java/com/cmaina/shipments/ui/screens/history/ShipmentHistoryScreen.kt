@@ -24,7 +24,7 @@ import com.cmaina.shipments.utils.getSampleShipments
 
 // This would typically come from a ViewModel
 // For now, we'll use the sample data directly
-val sampleShipmentsForScreen = getSampleShipments()
+val sampleShipmentsForScreen = getSampleShipments().shuffled()
 
 @Composable
 fun ShipmentHistoryScreen(

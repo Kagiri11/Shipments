@@ -16,31 +16,61 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cmaina.shipments.domain.model.Shipment
+import com.cmaina.shipments.ui.model.getSampleTabItems
 import com.cmaina.shipments.utils.getSampleShipments
 
 // This would typically come from a ViewModel
 // For now, we'll use the sample data directly
 val sampleShipmentsForScreen = getSampleShipments().shuffled()
+val sampleTabsForScreen = getSampleTabItems()
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShipmentHistoryScreen(
     // viewModel: ShipmentHistoryViewModel = hiltViewModel() // Example with Hilt
+    onNavigateBack: () -> Unit = {}
 ) {
     // val shipments by viewModel.shipments.collectAsState() // Example with ViewModel
-    val shipments = sampleShipmentsForScreen // Using sample data directly for now
+    val shipments = sampleShipmentsForScreen // Using sample data directly for now. This would be filtered based on selected tab
+    val tabs = sampleTabsForScreen
+
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
 
     // The Scaffold will be used later to add the TopAppBar and TabRow
     Scaffold(
-        // topBar = { /* We'll add TopAppBar here later */ }
+        topBar = {
+            ShipmentHistoryTopAppBar(
+                onNavigationIconClick = onNavigateBack // Connect the click handler
+            )
+        }
     ) { innerPadding ->
-        ShipmentHistoryContent(
-            shipments = shipments,
-            modifier = Modifier.padding(innerPadding) // Apply padding from Scaffold
-        )
+        Column(
+            modifier = Modifier
+                .padding(innerPadding) // Apply padding from Scaffold
+                .fillMaxSize()
+        ) {
+            ShipmentFilterTabs(
+                tabs = tabs,
+                selectedTabIndex = selectedTabIndex,
+                onTabSelected = { index ->
+                    selectedTabIndex = index
+                    // Here you would trigger data reloading/filtering
+                }
+                // The background is set within ShipmentFilterTabs
+            )
+            ShipmentHistoryContent(
+                shipments = shipments, // Pass the (potentially filtered) list
+                // Modifier is removed here as the Column above handles fillMaxSize
+            )
+        }
     }
 }
 

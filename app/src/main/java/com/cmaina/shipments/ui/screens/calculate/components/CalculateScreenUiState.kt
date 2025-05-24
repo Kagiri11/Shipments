@@ -1,5 +1,4 @@
-// File: com/cmaina/shipments/ui/screens/calculate/CalculateScreenUiState.kt
-package com.cmaina.shipments.ui.screens.calculate
+package com.cmaina.shipments.ui.screens.calculate.components
 
 // Enum to identify different form fields for validation or state management
 enum class CalculateFormField {

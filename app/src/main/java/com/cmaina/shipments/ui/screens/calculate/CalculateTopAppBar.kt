@@ -2,6 +2,7 @@
 // Or place directly in CalculateScreen.kt if it's not reused extensively.
 package com.cmaina.shipments.ui.screens.calculate
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -14,6 +15,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.cmaina.shipments.ui.theme.ShipmentsPurple
 
 // Assuming these colors are defined in a central place or accessible
 val AppBarBackgroundColor = Color(0xFF4A004E) // Same deep purple
@@ -29,7 +32,7 @@ fun CalculateTopAppBar(
             Text(
                 text = "Calculate",
                 style = MaterialTheme.typography.titleLarge,
-                color = AppBarContentColor
+                color = Color.White
             )
         },
         navigationIcon = {
@@ -42,10 +45,11 @@ fun CalculateTopAppBar(
             }
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = AppBarBackgroundColor,
+            containerColor = ShipmentsPurple,
             titleContentColor = AppBarContentColor,
             navigationIconContentColor = AppBarContentColor
-        )
+        ),
+        windowInsets = WindowInsets(top = 0.dp)
     )
 }
 

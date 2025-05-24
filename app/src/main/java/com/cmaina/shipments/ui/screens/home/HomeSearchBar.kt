@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.QrCodeScanner // Example for the scan icon
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,6 +33,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.cmaina.shipments.ui.theme.ShipmentsBrown
 import com.cmaina.shipments.ui.theme.ShipmentsPurple
 
 // Color defined in HomeScreen.kt or your Theme.kt
@@ -54,7 +57,7 @@ fun HomeSearchBar(
             value = searchQuery,
             onValueChange = onQueryChange,
             modifier = modifier
-                .fillMaxWidth()
+                .weight(0.8f)
                 .padding(horizontal = 16.dp, vertical = 8.dp)
                 .onFocusChanged { focusState ->
                     if (focusState.isFocused) {
@@ -69,11 +72,11 @@ fun HomeSearchBar(
                 )
             },
             trailingIcon = {
-                IconButton(onClick = onScanClick) {
+                Card(modifier = Modifier.wrapContentSize(), shape = CircleShape) {
                     Box(
                         modifier = Modifier
-                            .size(36.dp) // Size of the orange circle
-                            .background(Color.White, CircleShape),
+                            .size(40.dp) // Size of the orange circle
+                            .background(ShipmentsBrown, CircleShape),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(

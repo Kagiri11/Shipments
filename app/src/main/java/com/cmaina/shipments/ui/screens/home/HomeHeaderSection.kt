@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -16,9 +17,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.BadgedBox // For potential notification count
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api // For BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -109,32 +113,20 @@ fun HomeHeaderSection(
 
         // Right side: Notification Icon
         // If you want to show a badge for notificationCount > 0
-        if (notificationCount > 0) {
-            BadgedBox(
-                badge = {
-                    // You can customize the badge, e.g., Text(notificationCount.toString())
-                    // For now, a simple dot badge as in some Material designs if count > 0
-                    // However, the dribble design doesn't show a count, just the bell.
-                    // So, this BadgedBox might be overkill unless counts are to be shown.
-                    // For simplicity if no count is shown on badge: just use IconButton directly.
-                }
-            ) {
-                IconButton(onClick = onNotificationClick) {
-                    Icon(
-                        imageVector = Icons.Outlined.Notifications,
-                        contentDescription = "Notifications",
-                        tint = Color.White,
-                        modifier = Modifier.size(28.dp)
-                    )
-                }
-            }
-        } else { // Default: No badge, just the icon button
-            IconButton(onClick = onNotificationClick) {
+        Card(
+            modifier = Modifier.size(50.dp),
+            shape = CircleShape,
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White
+            ),
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+            onClick = onNotificationClick
+        ) {
+            IconButton(onClick = {}, modifier = Modifier.fillMaxSize()) {
                 Icon(
+                    tint = Color.Black,
                     imageVector = Icons.Outlined.Notifications,
-                    contentDescription = "Notifications",
-                    tint = Color.White,
-                    modifier = Modifier.size(28.dp)
+                    contentDescription = "Notifications"
                 )
             }
         }

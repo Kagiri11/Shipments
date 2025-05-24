@@ -1,8 +1,6 @@
-// File: com/cmaina/shipments/ui/screens/calculate/CalculateScreen.kt
 package com.cmaina.shipments.ui.screens.calculate
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,14 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.NorthEast
-import androidx.compose.material.icons.outlined.Scale
-import androidx.compose.material.icons.outlined.SouthEast
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -39,7 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.cmaina.shipments.ui.screens.calculate.components.FormEntryField
+import com.cmaina.shipments.ui.screens.calculate.components.CalculateScreenUiState
 
 // Import other necessary components as we build them
 
@@ -68,7 +60,7 @@ fun CalculateScreen(
             CalculateTopAppBar(onNavigationIconClick = onNavigateBack)
         },
         snackbarHost = { SnackbarHost(snackbarHostState) }
-    ) { innerPadding ->
+    ) {  innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()

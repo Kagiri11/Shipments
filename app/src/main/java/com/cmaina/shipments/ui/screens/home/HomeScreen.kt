@@ -1,6 +1,7 @@
 // File: com/cmaina/shipments/ui/screens/home/HomeScreen.kt
 package com.cmaina.shipments.ui.screens.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cmaina.shipments.ui.screens.home.components.SearchResultsList
+import com.cmaina.shipments.ui.theme.ShipmentsSmokeWhite
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -87,7 +89,9 @@ fun HomeScreen(
 
                 Box {
                     // Spacer after search bar
-                    Column {
+                    Column(
+                        modifier = Modifier.background(ShipmentsSmokeWhite)
+                    ) {
                         Spacer(modifier = Modifier.height(24.dp))
                         // Section 3: Tracking Information
                         // Only show if there's tracking info available

@@ -4,8 +4,11 @@ package com.cmaina.shipments.ui.screens.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
@@ -48,57 +51,64 @@ fun HomeSearchBar(
     onFocused: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(ShipmentsPurple)
     ) {
-        OutlinedTextField(
-            value = searchQuery,
-            onValueChange = onQueryChange,
-            modifier = modifier
-                .weight(0.8f)
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-                .onFocusChanged { focusState ->
-                    if (focusState.isFocused) {
-                        onFocused()
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(ShipmentsPurple)
+        ) {
+            OutlinedTextField(
+                value = searchQuery,
+                onValueChange = onQueryChange,
+                modifier = modifier
+                    .weight(0.8f)
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .onFocusChanged { focusState ->
+                        if (focusState.isFocused) {
+                            onFocused()
+                        }
+                    },
+                placeholder = { Text("Enter the receipt number ...") },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.Search,
+                        contentDescription = "Search Icon"
+                    )
+                },
+                trailingIcon = {
+                    Card(modifier = Modifier.wrapContentSize(), shape = CircleShape) {
+                        Box(
+                            modifier = Modifier
+                                .size(40.dp) // Size of the orange circle
+                                .background(ShipmentsBrown, CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.QrCodeScanner, // Or your specific icon
+                                contentDescription = "Scan Receipt",
+                                tint = Color.White, // Icon color on orange background
+                                modifier = Modifier.size(20.dp) // Size of the icon itself
+                            )
+                        }
                     }
                 },
-            placeholder = { Text("Enter the receipt number ...") },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Filled.Search,
-                    contentDescription = "Search Icon"
-                )
-            },
-            trailingIcon = {
-                Card(modifier = Modifier.wrapContentSize(), shape = CircleShape) {
-                    Box(
-                        modifier = Modifier
-                            .size(40.dp) // Size of the orange circle
-                            .background(ShipmentsBrown, CircleShape),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.QrCodeScanner, // Or your specific icon
-                            contentDescription = "Scan Receipt",
-                            tint = Color.White, // Icon color on orange background
-                            modifier = Modifier.size(20.dp) // Size of the icon itself
-                        )
-                    }
-                }
-            },
-            shape = RoundedCornerShape(28.dp), // Highly rounded corners
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.surface, // White or light surface
-                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-                disabledContainerColor = MaterialTheme.colorScheme.surface,
-                focusedIndicatorColor = Color.Transparent, // No underline indicator when focused
-                unfocusedIndicatorColor = Color.Transparent, // No underline indicator when unfocused
-                disabledIndicatorColor = Color.Transparent,
-            ),
-            singleLine = true
-        )
+                shape = RoundedCornerShape(50), // Highly rounded corners
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = MaterialTheme.colorScheme.surface, // White or light surface
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                    disabledContainerColor = MaterialTheme.colorScheme.surface,
+                    focusedIndicatorColor = Color.Transparent, // No underline indicator when focused
+                    unfocusedIndicatorColor = Color.Transparent, // No underline indicator when unfocused
+                    disabledIndicatorColor = Color.Transparent,
+                ),
+                singleLine = true
+            )
+        }
+        Spacer(modifier = Modifier.height(10.dp))
     }
 }
 

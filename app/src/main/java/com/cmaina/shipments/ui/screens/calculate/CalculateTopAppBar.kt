@@ -1,5 +1,3 @@
-// File: com/cmaina/shipments/ui/screens/calculate/CalculateTopAppBar.kt
-// Or place directly in CalculateScreen.kt if it's not reused extensively.
 package com.cmaina.shipments.ui.screens.calculate
 
 import androidx.compose.foundation.layout.WindowInsets
@@ -18,8 +16,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cmaina.shipments.ui.theme.ShipmentsPurple
 
-// Assuming these colors are defined in a central place or accessible
-val AppBarBackgroundColor = Color(0xFF4A004E) // Same deep purple
 val AppBarContentColor = Color.White
 
 @OptIn(ExperimentalMaterial3Api::class)

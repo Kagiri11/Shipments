@@ -1,7 +1,11 @@
 package com.cmaina.shipments.ui.screens.calculate
 
-import android.annotation.SuppressLint
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,11 +13,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -28,21 +35,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.cmaina.shipments.ui.screens.calculate.components.CalculateFormField
 import com.cmaina.shipments.ui.screens.calculate.components.CalculateScreenUiState
-
-// Import other necessary components as we build them
-
-// Assuming this color is defined (e.g., from Home Screen search bar icon)
-val CalculateButtonColor = Color(0xFFFFA726) // Orange
+import com.cmaina.shipments.ui.theme.ShipmentsBrown
+import com.cmaina.shipments.ui.theme.ShipmentsSmokeWhite
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalculateScreen(
     calculateViewModel: CalculateViewModel = viewModel(),
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onNavigateToSuccess: () -> Unit
 ) {
     val uiState by calculateViewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -53,7 +59,13 @@ fun CalculateScreen(
             calculateViewModel.clearErrorMessage() // Clear after showing
         }
     }
-    // You might also want LaunchedEffect for uiState.calculationResult to show a success message or navigate
+
+    LaunchedEffect(uiState.navigateToSuccessScreen) {
+        if (uiState.navigateToSuccessScreen){
+            onNavigateToSuccess()
+            calculateViewModel.resetNavigationUiState()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -64,20 +76,19 @@ fun CalculateScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(ShipmentsSmokeWhite)
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp) // Horizontal padding for the whole content
-                .verticalScroll(rememberScrollState()) // Make content scrollable if it exceeds screen height
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState())
         ) {
-            // We will add sections here: Destination, Packaging, Categories
 
-            Spacer(modifier = Modifier.height(24.dp)) // Initial spacer
+            Spacer(modifier = Modifier.height(24.dp))
 
-            // Placeholder for Destination Section
             DestinationSection(
                 uiState = uiState,
-                onSenderLocationClick = { /* viewModel.handleSenderLocationSelection() */ },
-                onReceiverLocationClick = { /* viewModel.handleReceiverLocationSelection() */ },
-                onApproxWeightClick = { /* viewModel.handleApproxWeightSelection() or focus text field */ }
+                onSenderLocationClick = { },
+                onReceiverLocationClick = { },
+                onApproxWeightClick = { }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -85,7 +96,9 @@ fun CalculateScreen(
             // Placeholder for Packaging Section
             PackagingSection(
                 uiState = uiState,
-                onPackagingSelected = {}
+                onPackagingSelected = { packaging ->
+                    calculateViewModel.onPackagingSelected(packaging)
+                }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -93,20 +106,22 @@ fun CalculateScreen(
             // Placeholder for Categories Section
             CategoriesSection(
                 uiState = uiState,
-                viewModel = calculateViewModel
+                onCategoryToggled = {
+                    calculateViewModel.onCategoryToggled(it)
+                }
             )
 
-            Spacer(modifier = Modifier.weight(1f)) // Pushes button to the bottom if content is short
+            Spacer(modifier = Modifier.weight(1f))
 
             // Calculate Button
             Button(
                 onClick = { calculateViewModel.onCalculateClicked() },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 16.dp),
+                    .padding(vertical = 16.dp).height(60.dp),
                 enabled = !uiState.isCalculating,
-                shape = MaterialTheme.shapes.medium,
-                colors = ButtonDefaults.buttonColors(containerColor = CalculateButtonColor)
+                shape = RoundedCornerShape(50),
+                colors = ButtonDefaults.buttonColors(containerColor = ShipmentsBrown)
             ) {
                 if (uiState.isCalculating) {
                     CircularProgressIndicator(
@@ -117,6 +132,7 @@ fun CalculateScreen(
                 } else {
                     Text(
                         "Calculate",
+                        style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp),
                         color = MaterialTheme.colorScheme.onPrimary
                     ) // Assuming white or dark text on orange
                 }
@@ -136,41 +152,54 @@ fun CalculateScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun PackagingSection(uiState: CalculateScreenUiState, viewModel: CalculateViewModel) {
-    Column {
+fun CategoriesSection(
+    uiState: CalculateScreenUiState,
+    onCategoryToggled: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier.fillMaxWidth()) {
         Text(
-            "Packaging Section Placeholder",
-            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+            text = "Categories",
+            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+            modifier = Modifier.padding(bottom = 4.dp)
         )
-        // ... Implementation will go here ...
-        Text("Selected: ${uiState.selectedPackaging}", modifier = Modifier.padding(top = 8.dp))
-    }
-}
-
-@Composable
-fun CategoriesSection(uiState: CalculateScreenUiState, viewModel: CalculateViewModel) {
-    Column {
         Text(
-            "Categories Section Placeholder",
-            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+            text = "What are you sending?", // Same subtitle, as per design
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(bottom = 12.dp)
         )
-        // ... Implementation will go here ...
-        Text(
-            "Selected: ${uiState.selectedCategories.joinToString()}",
-            modifier = Modifier.padding(top = 8.dp)
-        )
-    }
-}
 
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            uiState.categoryOptions.forEach { categoryName ->
+                val isSelected = uiState.selectedCategories.contains(categoryName)
+                val selectedContainerColor by animateColorAsState(if (isSelected) Color.Black else ShipmentsSmokeWhite)
+                val selectedLabelColor by animateColorAsState(if (isSelected) Color.White else Color.Black)
+                FilterChip(
+                    selected = isSelected,
+                    onClick = { onCategoryToggled(categoryName) },
+                    label = { Text(categoryName) },
+                    colors = FilterChipDefaults.filterChipColors(
+                        selectedContainerColor = selectedContainerColor,
+                        selectedLabelColor = selectedLabelColor,
+                    ),
+                )
+            }
+        }
 
-@Preview(showBackground = true, device = "spec:width=1080px,height=2340px,dpi=440")
-@Composable
-fun CalculateScreenPreview() {
-    MaterialTheme {
-        /*CalculateScreen(
-            calculateViewModel = CalculateViewModel(), // Uses default state
-            onNavigateBack = {}
-        )*/
+        uiState.fieldErrors[CalculateFormField.CATEGORIES]?.let { errorMessage ->
+            Text(
+                text = errorMessage,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(start = 4.dp, top = 8.dp)
+            )
+        }
     }
 }

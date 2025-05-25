@@ -78,33 +78,21 @@ class CalculateViewModel : ViewModel() {
     }
 
     fun onCalculateClicked() {
-        if (validateInputs()) {
-            viewModelScope.launch {
-                _uiState.update { it.copy(isCalculating = true, generalErrorMessage = null, calculationResult = null) }
-                // Simulate calculation delay
-                delay(2000)
-                // --- Actual calculation logic would go here ---
-                // For now, let's just simulate a result or an error
-                val success = true // Simulate success/failure
-                if (success) {
-                    val currentWeight = _uiState.value.approxWeight.toDoubleOrNull() ?: 0.0
-                    val cost = 10.0 + (currentWeight * 0.5) + (_uiState.value.selectedCategories.size * 2.0)
-                    _uiState.update {
-                        it.copy(
-                            isCalculating = false,
-                            calculationResult = "Estimated cost: $${String.format("%.2f", cost)}"
-                        )
-                    }
-                } else {
-                    _uiState.update {
-                        it.copy(
-                            isCalculating = false,
-                            generalErrorMessage = "Could not calculate. Please try again."
-                        )
-                    }
-                }
+        viewModelScope.launch {
+            _uiState.update { it.copy(isCalculating = true, generalErrorMessage = null, calculationResult = null) }
+            delay(2000)
+            _uiState.update {
+                it.copy(
+                    isCalculating = false,
+                    calculationResult = "Estimated cost: $",
+                    navigateToSuccessScreen = true
+                )
             }
         }
+    }
+
+    fun resetNavigationUiState(){
+        _uiState.update { it.copy(navigateToSuccessScreen = false) }
     }
 
     private fun validateInputs(): Boolean {

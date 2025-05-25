@@ -1,6 +1,5 @@
 package com.cmaina.shipments.ui.navigation
 
-import android.util.Log
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
@@ -9,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.cmaina.shipments.ui.navigation.Screen.Calculate
 import com.cmaina.shipments.ui.navigation.Screen.History
 import com.cmaina.shipments.ui.navigation.Screen.Home
@@ -28,7 +26,6 @@ fun ShipmentsNavigation(
     navController: NavHostController,
     modifier: Modifier
 ){
-    Log.e("BottomNavigation", "Controller hash overall: ${navController.hashCode()}")
     NavHost(modifier = modifier, navController = navController, startDestination = Home) {
         composable<Home>(
             enterTransition = {
@@ -83,7 +80,7 @@ fun ShipmentsNavigation(
                         towards = AnimatedContentTransitionScope.SlideDirection.Start
                     )
 
-                    in listOf(History, Profile).map { it::class.qualifiedName }-> slideIn(
+                    in listOf(History, Profile, Success).map { it::class.qualifiedName }-> slideIn(
                         towards = AnimatedContentTransitionScope.SlideDirection.End
                     )
 
@@ -96,7 +93,7 @@ fun ShipmentsNavigation(
                         towards = AnimatedContentTransitionScope.SlideDirection.End
                     )
 
-                    in listOf(History, Profile).map { it::class.qualifiedName } -> slideOut(
+                    in listOf(History, Profile, Success).map { it::class.qualifiedName } -> slideOut(
                         towards = AnimatedContentTransitionScope.SlideDirection.Start
                     )
 
@@ -105,7 +102,10 @@ fun ShipmentsNavigation(
             }
         ) {
             CalculateScreen(
-                onNavigateBack = { navController.popBackStack() }
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToSuccess = {
+                    navController.navigate(Success)
+                }
             )
         }
 
@@ -142,8 +142,31 @@ fun ShipmentsNavigation(
             )
         }
 
-        composable<Success> {
-            SuccessScreen()
+        composable<Success>(
+            enterTransition = {
+                when (initialState.destination.route) {
+                    Calculate::class.qualifiedName -> slideIn(
+                        towards = AnimatedContentTransitionScope.SlideDirection.Start
+                    )
+
+                    else -> EnterTransition.None
+                }
+            },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    Home::class.qualifiedName -> slideOut(
+                        towards = AnimatedContentTransitionScope.SlideDirection.End
+                    )
+
+                    else -> ExitTransition.None
+                }
+            }
+        ) {
+            SuccessScreen(
+                onBackToHomeClick = {
+                    navController.navigateToTopScreens(Home)
+                }
+            )
         }
     }
 }

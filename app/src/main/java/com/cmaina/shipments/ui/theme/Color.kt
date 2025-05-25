@@ -2,7 +2,7 @@ package com.cmaina.shipments.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val ShipmentsSmokeWhite = Color(0xFFf3f2f2)
+val ShipmentsSmokeWhite = Color(0xCCF3F2F2)
 val ShipmentsPurple = Color(0xFF49328D)
 val ShipmentsMirage = Color(0xFF14202d)
 val ShipmentsBrown = Color(0xFFDE773B)

@@ -1,11 +1,21 @@
 package com.cmaina.shipments.ui.screens.calculate
 
-// ... other imports from CalculateScreen.kt ...
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.Inventory2 // For Packaging Box Icon
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -20,14 +30,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.cmaina.shipments.ui.screens.calculate.components.CalculateFormField
 import com.cmaina.shipments.ui.screens.calculate.components.CalculateScreenUiState
 import com.cmaina.shipments.ui.screens.calculate.components.FormFieldBackgroundColor // Ensure this is accessible
-
-// ... (CalculateTopAppBar, CalculateScreen, DestinationSection, CategoriesSection stub, Previews) ...
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,6 +50,7 @@ fun PackagingSection(
     modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
+    val rotation by animateFloatAsState(if (expanded) 180f else 0f)
 
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
@@ -51,48 +65,58 @@ fun PackagingSection(
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = { expanded = !expanded },
-            modifier = Modifier.fillMaxWidth()
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 5.dp)
+                .height(60.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White,
+                contentColor = Color.Black
+            ),
+            onClick = {
+                expanded = !expanded
+            }
         ) {
-            OutlinedTextField( // Using OutlinedTextField to match general field appearance
-                value = uiState.selectedPackaging,
-                onValueChange = {}, // Not directly editable
-                readOnly = true,
+            Row(
                 modifier = Modifier
-                    .menuAnchor() // Important for connecting TextField to the DropdownMenu
-                    .fillMaxWidth(),
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Outlined.Inventory2,
-                        contentDescription = "Packaging Type Icon"
-                    )
-                },
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                },
-                shape = MaterialTheme.shapes.small, // RoundedCornerShape(8.dp)
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = FormFieldBackgroundColor,
-                    unfocusedContainerColor = FormFieldBackgroundColor,
-                    disabledContainerColor = FormFieldBackgroundColor,
-                )
-            )
-
-            ExposedDropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
+                    .padding(horizontal = 16.dp)
+                    .fillMaxSize(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                uiState.packagingOptions.forEach { selectionOption ->
-                    DropdownMenuItem(
-                        text = { Text(selectionOption) },
-                        onClick = {
-                            onPackagingSelected(selectionOption)
-                            expanded = false
-                        }
-                    )
-                }
+                Icon(
+                    modifier = Modifier.weight(0.2f),
+                    imageVector = Icons.Outlined.Inventory2,
+                    contentDescription = "Packaging Type Icon"
+                )
+
+                Text(text = uiState.selectedPackaging, modifier = Modifier.weight(0.6f))
+
+                Icon(
+                    imageVector = Icons.Filled.KeyboardArrowDown,
+                    modifier = Modifier
+                        .rotate(rotation)
+                        .weight(0.2f),
+                    contentDescription = ""
+                )
+            }
+        }
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = !expanded },
+            containerColor = Color.White,
+
+            ) {
+            uiState.packagingOptions.forEach { selectionOption ->
+                DropdownMenuItem(
+                    text = { Text(selectionOption) },
+                    onClick = {
+                        onPackagingSelected(selectionOption)
+                        expanded = false
+                    }
+                )
             }
         }
 
@@ -101,16 +125,11 @@ fun PackagingSection(
                 text = errorMessage,
                 color = MaterialTheme.colorScheme.error,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(start = 16.dp, top = 4.dp) // Match FormEntryField error padding
+                modifier = Modifier.padding(
+                    start = 16.dp,
+                    top = 4.dp
+                )
             )
         }
     }
 }
-
-// In your main CalculateScreen composable, update the call to PackagingSection:
-// ... inside CalculateScreen's Column ...
-// PackagingSection(
-//     uiState = uiState,
-//     onPackagingSelected = viewModel::onPackagingSelected
-// )
-// ...

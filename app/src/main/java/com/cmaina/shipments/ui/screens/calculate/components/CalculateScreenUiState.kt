@@ -29,6 +29,8 @@ data class CalculateScreenUiState(
     // State flags
     val isCalculating: Boolean = false, // True when "Calculate" is pressed and processing
 
+    val navigateToSuccessScreen: Boolean = false,
+
     // Result and error handling
     val calculationResult: String? = null, // Could be a more structured type later
     val fieldErrors: Map<CalculateFormField, String> = emptyMap(), // To show errors for specific fields

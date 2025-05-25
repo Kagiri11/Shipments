@@ -1,16 +1,15 @@
-// File: com/cmaina/shipments/ui/screens/calculate/CalculateScreen.kt
-// (Add this DestinationSection composable to this file, replacing the stub)
 package com.cmaina.shipments.ui.screens.calculate
 
-// ... other imports from CalculateScreen.kt ...
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.NorthEast // For Sender
 import androidx.compose.material.icons.outlined.Scale // For Weight
 import androidx.compose.material.icons.outlined.SouthEast // For Receiver
+import androidx.compose.material.icons.outlined.Unarchive
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -24,41 +23,37 @@ import com.cmaina.shipments.ui.screens.calculate.components.CalculateFormField
 import com.cmaina.shipments.ui.screens.calculate.components.CalculateScreenUiState
 import com.cmaina.shipments.ui.screens.calculate.components.FormEntryField // Import FormEntryField
 
-// ... (CalculateTopAppBar, CalculateScreen, PackagingSection stub, CategoriesSection stub, Previews) ...
-
 @Composable
 fun DestinationSection(
     uiState: CalculateScreenUiState,
-    // Instead of passing full ViewModel, pass specific lambdas for interactions
     onSenderLocationClick: () -> Unit,
     onReceiverLocationClick: () -> Unit,
     onApproxWeightClick: () -> Unit,
-    // If approxWeight was a text field: onApproxWeightChange: (String) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             text = "Destination",
             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-            modifier = Modifier.padding(bottom = 8.dp) // Space between title and card
+            modifier = Modifier.padding(bottom = 8.dp)
         )
         Card(
             modifier = Modifier.fillMaxWidth(),
-            shape = MaterialTheme.shapes.medium, // e.g., RoundedCornerShape(12.dp)
+            shape = MaterialTheme.shapes.medium,
             colors = CardDefaults.cardColors(containerColor = Color.White),
-            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp) // Subtle elevation
+            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
         ) {
             Column(
-                modifier = Modifier.padding(16.dp), // Padding inside the card
-                verticalArrangement = Arrangement.spacedBy(12.dp) // Space between form fields
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 FormEntryField(
-                    icon = Icons.Outlined.NorthEast,
+                    icon = Icons.Outlined.Unarchive,
                     label = uiState.senderLocation.ifBlank { "Sender location" },
                     onClick = onSenderLocationClick,
                     errorMessage = uiState.fieldErrors[CalculateFormField.SENDER_LOCATION]
                 )
                 FormEntryField(
-                    icon = Icons.Outlined.SouthEast,
+                    icon = Icons.Outlined.Archive,
                     label = uiState.receiverLocation.ifBlank { "Receiver location" },
                     onClick = onReceiverLocationClick,
                     errorMessage = uiState.fieldErrors[CalculateFormField.RECEIVER_LOCATION]
@@ -66,8 +61,6 @@ fun DestinationSection(
                 FormEntryField(
                     icon = Icons.Outlined.Scale,
                     label = uiState.approxWeight.ifBlank { "Approx weight" },
-                    // If this were a text field, it would be different.
-                    // For now, assuming it also opens a picker/dialog on click.
                     onClick = onApproxWeightClick,
                     errorMessage = uiState.fieldErrors[CalculateFormField.APPROX_WEIGHT]
                 )
@@ -75,13 +68,3 @@ fun DestinationSection(
         }
     }
 }
-
-// In your main CalculateScreen composable, update the call to DestinationSection:
-// ... inside CalculateScreen's Column ...
-// DestinationSection(
-//     uiState = uiState,
-//     onSenderLocationClick = { /* viewModel.handleSenderLocationSelection() */ },
-//     onReceiverLocationClick = { /* viewModel.handleReceiverLocationSelection() */ },
-//     onApproxWeightClick = { /* viewModel.handleApproxWeightSelection() or focus text field */ }
-// )
-// ...

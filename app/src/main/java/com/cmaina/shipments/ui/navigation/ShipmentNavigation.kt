@@ -32,7 +32,9 @@ fun ShipmentsNavigation(
         }
 
         composable<Calculate> {
-            CalculateScreen()
+            CalculateScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
 
         composable<History> {

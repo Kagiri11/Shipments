@@ -1,5 +1,6 @@
 package com.cmaina.shipments.ui.screens.history
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack // Auto-mirrored for RTL support
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -12,9 +13,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.cmaina.shipments.ui.theme.ShipmentsPurple
 
-// Define colors (or import from your theme's color file)
 val PurpleAppBarContent = Color.White
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,7 +27,7 @@ fun ShipmentHistoryTopAppBar(
         title = {
             Text(
                 text = "Shipment history",
-                style = MaterialTheme.typography.titleLarge, // Or another appropriate style
+                style = MaterialTheme.typography.titleLarge,
                 color = PurpleAppBarContent
             )
         },
@@ -43,7 +44,8 @@ fun ShipmentHistoryTopAppBar(
             containerColor = ShipmentsPurple,
             titleContentColor = PurpleAppBarContent,
             navigationIconContentColor = PurpleAppBarContent
-        )
+        ),
+        windowInsets = WindowInsets(top = 0.dp)
     )
 }
 

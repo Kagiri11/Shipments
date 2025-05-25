@@ -127,7 +127,6 @@ fun HomeScreen(
     }
 }
 
-// Make sure your preview uses a ViewModel instance that populates the state
 @Preview(showBackground = true, device = "spec:width=1080px,height=2340px,dpi=440")
 @Composable
 fun HomeScreenIntegratedPreview() {

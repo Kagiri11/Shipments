@@ -13,6 +13,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -23,11 +26,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cmaina.shipments.domain.model.Shipment
+import com.cmaina.shipments.ui.theme.ShipmentsPurple
 import com.cmaina.shipments.ui.theme.ShipmentsSmokeWhite
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,9 +52,10 @@ fun ShipmentHistoryScreen(
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .padding(top = innerPadding.calculateTopPadding())
+                .padding(innerPadding)
                 .fillMaxSize()
         ) {
+
             if (uiState.tabItems.isNotEmpty()) {
                 ShipmentFilterTabs(
                     tabs = uiState.tabItems,
@@ -63,7 +71,9 @@ fun ShipmentHistoryScreen(
             ) { isLoading ->
                 if (isLoading) {
                     Box(
-                        modifier = Modifier.fillMaxSize().background(color = ShipmentsSmokeWhite),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(color = ShipmentsSmokeWhite),
                         contentAlignment = Alignment.Center
                     ) {
                         CircularProgressIndicator()
@@ -113,7 +123,10 @@ fun ShipmentHistoryContent(
             ) {
                 items(items = shipments) { shipment ->
                     ShipmentItemCard(
-                        modifier = Modifier.animateItem(fadeInSpec = spring(), fadeOutSpec =  spring()),
+                        modifier = Modifier.animateItem(
+                            fadeInSpec = spring(),
+                            fadeOutSpec = spring()
+                        ),
                         shipment = shipment
                     )
                 }
@@ -126,7 +139,7 @@ fun ShipmentHistoryContent(
 @Composable
 fun ShipmentHistoryScreenPreview() {
     MaterialTheme {
-        ShipmentHistoryScreen{}
+        ShipmentHistoryScreen {}
     }
 }
 

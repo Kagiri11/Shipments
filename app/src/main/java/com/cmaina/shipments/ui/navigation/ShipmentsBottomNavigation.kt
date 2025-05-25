@@ -1,5 +1,6 @@
 package com.cmaina.shipments.ui.navigation
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Icon
@@ -7,14 +8,17 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.cmaina.shipments.ui.navigation.Screen.Calculate
 import com.cmaina.shipments.ui.navigation.Screen.History
 import com.cmaina.shipments.ui.navigation.Screen.Home
 import com.cmaina.shipments.ui.navigation.Screen.Profile
+import com.cmaina.shipments.ui.theme.ShipmentsGrey
+import com.cmaina.shipments.ui.theme.ShipmentsPurple
+import com.cmaina.shipments.ui.theme.ShipmentsSmokeWhite
 
 val TopLevelScreens: List<Screen> = listOf(Home, Calculate, History, Profile)
 
@@ -22,11 +26,15 @@ val TopLevelScreens: List<Screen> = listOf(Home, Calculate, History, Profile)
 fun ShipmentsBottomNavigation(
     navController: NavHostController
 ) {
-    NavigationBar(modifier = Modifier.fillMaxWidth()) {
+    val currentScreen = navController.currentBackStackEntryAsState().value?.destination?.route
+    NavigationBar(
+        modifier = Modifier.fillMaxWidth(),
+        containerColor = ShipmentsSmokeWhite,
+    ) {
         TopLevelScreens.forEach { screen ->
             AddBottomNavigationItem(
                 screen = screen,
-                currentScreen = navController.currentDestination,
+                currentScreen = currentScreen,
                 navController = navController
             )
         }
@@ -36,23 +44,27 @@ fun ShipmentsBottomNavigation(
 @Composable
 fun RowScope.AddBottomNavigationItem(
     screen: Screen,
-    currentScreen: NavDestination?,
+    currentScreen: String?,
     navController: NavHostController
 ) {
-    val isSelected = currentScreen?.hierarchy?.any { it.route == screen::class.qualifiedName } == true
+    val isSelected = currentScreen == screen::class.qualifiedName
+    val contentColor by animateColorAsState(if (isSelected) ShipmentsPurple else ShipmentsGrey)
     NavigationBarItem(
         selected = isSelected,
         onClick = {
-            navController.navigateToTopScreens(screen)
+            if(currentScreen != screen::class.qualifiedName){
+                navController.navigateToTopScreens(screen)
+            }
         },
         icon = {
             Icon(
+                tint = contentColor,
                 imageVector = screen.icon,
                 contentDescription = screen.label
             )
         },
         label = {
-            Text(text = screen.label)
+            Text(text = screen.label, color = contentColor)
         }
     )
 }

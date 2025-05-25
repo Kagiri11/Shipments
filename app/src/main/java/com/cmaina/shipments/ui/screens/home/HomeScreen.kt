@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,92 +41,86 @@ fun HomeScreen(
         }
     }
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) }
-        // bottomBar = { /* Handled by ShipmentsNavigation in your app's main structure */ }
-    ) { innerPadding ->
-        if (uiState.isLoading) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        } else {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(),
-            ) {
-                // Section 1: Top Header (User Info & Notifications)
-                uiState.userDisplayInfo?.let { userInfo ->
-                    HomeHeaderSection(
-                        userDisplayInfo = userInfo,
-                        notificationCount = uiState.notificationCount,
-                        onLocationClick = { homeViewModel.onLocationClicked() },
-                        onNotificationClick = { homeViewModel.onNotificationClicked() }
-                    )
-                }
-
-                // Section 2: Search Bar
-                HomeSearchBar(
-                    searchQuery = uiState.searchQuery,
-                    onQueryChange = homeViewModel::onSearchQueryChanged,
-                    onScanClick = homeViewModel::onScanReceiptClicked,
-                    onFocused = { homeViewModel.setSearchActive(true)}
+    if (uiState.isLoading) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(),
+        ) {
+            // Section 1: Top Header (User Info & Notifications)
+            uiState.userDisplayInfo?.let { userInfo ->
+                HomeHeaderSection(
+                    userDisplayInfo = userInfo,
+                    notificationCount = uiState.notificationCount,
+                    onLocationClick = { homeViewModel.onLocationClicked() },
+                    onNotificationClick = { homeViewModel.onNotificationClicked() }
                 )
+            }
 
-                Box {
-                    // Spacer after search bar
-                    Column(
-                        modifier = Modifier.background(ShipmentsSmokeWhite)
-                    ) {
-                        Spacer(modifier = Modifier.height(24.dp))
-                        // Section 3: Tracking Information
-                        uiState.activeTrackingSummary?.let { trackingInfo ->
-                            TrackingSection(
-                                trackingInfo = trackingInfo,
-                                onAddStopClick = homeViewModel::onAddStopClicked
-                            )
-                        }
+            // Section 2: Search Bar
+            HomeSearchBar(
+                searchQuery = uiState.searchQuery,
+                onQueryChange = homeViewModel::onSearchQueryChanged,
+                onScanClick = homeViewModel::onScanReceiptClicked,
+                onFocused = { homeViewModel.setSearchActive(true)}
+            )
 
-                        // Spacer after tracking (only if tracking info was present)
-                        if (uiState.activeTrackingSummary != null) {
-                            Spacer(modifier = Modifier.height(24.dp))
-                        }
-
-                        // Section 4: Available Vehicles
-                        if (uiState.availableVehicles.isNotEmpty()) {
-                            AvailableVehiclesSection(
-                                vehicles = uiState.availableVehicles,
-                                onVehicleSelected = homeViewModel::onVehicleOptionSelected // Using function reference
-                            )
-                        } else if (uiState.activeTrackingSummary == null) {
-                            // Fallback content if no tracking and no vehicles (and not loading)
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxHeight(0.5f) // Take up some space
-                                    .fillMaxWidth()
-                                    .padding(16.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    "No information to display at the moment.",
-                                    style = MaterialTheme.typography.bodyLarge
-                                )
-                            }
-                        }
-                    }
-                    if (uiState.isSearchActive){
-                        SearchResultsList(
-                            results = uiState.searchResults,
-                            isLoading = uiState.isSearchLoading,
-                            searchQuery = uiState.searchQuery,
-                            onItemClick = { /* Handle item click */ }
+            Box {
+                // Spacer after search bar
+                Column(
+                    modifier = Modifier.background(ShipmentsSmokeWhite)
+                ) {
+                    Spacer(modifier = Modifier.height(24.dp))
+                    // Section 3: Tracking Information
+                    uiState.activeTrackingSummary?.let { trackingInfo ->
+                        TrackingSection(
+                            trackingInfo = trackingInfo,
+                            onAddStopClick = homeViewModel::onAddStopClicked
                         )
                     }
+
+                    // Spacer after tracking (only if tracking info was present)
+                    if (uiState.activeTrackingSummary != null) {
+                        Spacer(modifier = Modifier.height(24.dp))
+                    }
+
+                    // Section 4: Available Vehicles
+                    if (uiState.availableVehicles.isNotEmpty()) {
+                        AvailableVehiclesSection(
+                            vehicles = uiState.availableVehicles,
+                            onVehicleSelected = homeViewModel::onVehicleOptionSelected // Using function reference
+                        )
+                    } else if (uiState.activeTrackingSummary == null) {
+                        // Fallback content if no tracking and no vehicles (and not loading)
+                        Box(
+                            modifier = Modifier
+                                .fillMaxHeight(0.5f) // Take up some space
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                "No information to display at the moment.",
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+                        }
+                    }
+                }
+                if (uiState.isSearchActive){
+                    SearchResultsList(
+                        results = uiState.searchResults,
+                        isLoading = uiState.isSearchLoading,
+                        searchQuery = uiState.searchQuery,
+                        onItemClick = { /* Handle item click */ }
+                    )
                 }
             }
         }

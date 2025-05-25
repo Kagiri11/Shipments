@@ -1,5 +1,8 @@
 package com.cmaina.shipments.ui.screens.history
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateValueAsState
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import com.cmaina.shipments.ui.model.TabItem
 import com.cmaina.shipments.ui.model.getSampleTabItems
@@ -8,10 +11,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,6 +54,8 @@ fun ShipmentFilterTabs(
     ) {
         tabs.forEachIndexed { index, tabItem ->
             val isSelected = selectedTabIndex == index
+            val tabTextColor by animateColorAsState(if(isSelected) Color.White else Color.White.copy(alpha = 0.5F))
+            val tabContainterColor by animateColorAsState(if(isSelected) TabBadgeBackgroundColor else Color.White.copy(alpha = 0.3F))
             Tab(
                 modifier = Modifier.background(ShipmentsPurple),
                 selected = isSelected,
@@ -68,12 +75,14 @@ fun ShipmentFilterTabs(
                                 .height(20.dp)
                                 .width(28.dp)
                                 .clip(CircleShape)
-                                .background(if(isSelected) TabBadgeBackgroundColor else Color.White.copy(alpha = 0.3F)),
+                                .background(
+                                    tabContainterColor
+                                ),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
                                 text = tabItem.count.toString(),
-                                color = if(isSelected) Color.White else Color.White.copy(alpha = 0.5F),
+                                color = tabTextColor,
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold
                             )

@@ -1,5 +1,6 @@
 package com.cmaina.shipments.ui.navigation
 
+import android.util.Log
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
@@ -24,9 +25,10 @@ import com.cmaina.shipments.ui.screens.success.SuccessScreen
 
 @Composable
 fun ShipmentsNavigation(
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController,
     modifier: Modifier
 ){
+    Log.e("BottomNavigation", "Controller hash overall: ${navController.hashCode()}")
     NavHost(modifier = modifier, navController = navController, startDestination = Home) {
         composable<Home>(
             enterTransition = {

@@ -1,6 +1,8 @@
 package com.cmaina.shipments.ui.screens.history
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.spring
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -76,6 +78,7 @@ fun ShipmentHistoryScreen(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ShipmentHistoryContent(
     shipments: List<Shipment>,
@@ -108,8 +111,9 @@ fun ShipmentHistoryContent(
                 modifier = Modifier.fillMaxWidth(),
                 contentPadding = PaddingValues(vertical = 6.dp)
             ) {
-                items(shipments) { shipment ->
+                items(items = shipments) { shipment ->
                     ShipmentItemCard(
+                        modifier = Modifier.animateItem(fadeInSpec = spring(), fadeOutSpec =  spring()),
                         shipment = shipment
                     )
                 }

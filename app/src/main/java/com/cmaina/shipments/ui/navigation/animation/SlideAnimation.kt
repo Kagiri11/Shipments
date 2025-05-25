@@ -13,10 +13,7 @@ import androidx.navigation.NavBackStackEntry
 const val slideAnimationDuration = 250
 const val fadeAnimationDuration = 280
 fun AnimatedContentTransitionScope<NavBackStackEntry>.slideIn(towards: AnimatedContentTransitionScope.SlideDirection): EnterTransition {
-    return fadeIn(
-        animationSpec = tween(
-            fadeAnimationDuration, easing = LinearEasing
-        )
+    return fadeIn(animationSpec = tween(fadeAnimationDuration, easing = LinearEasing)
     ) + slideIntoContainer(
         animationSpec = tween(slideAnimationDuration, easing = EaseIn),
         towards = towards
@@ -24,10 +21,7 @@ fun AnimatedContentTransitionScope<NavBackStackEntry>.slideIn(towards: AnimatedC
 }
 
 fun AnimatedContentTransitionScope<NavBackStackEntry>.slideOut(towards: AnimatedContentTransitionScope.SlideDirection): ExitTransition {
-    return fadeOut(
-        animationSpec = tween(
-            fadeAnimationDuration, easing = LinearEasing
-        )
+    return fadeOut(animationSpec = tween(fadeAnimationDuration, easing = LinearEasing)
     ) + slideOutOfContainer(
         animationSpec = tween(slideAnimationDuration, easing = EaseIn),
         towards = towards

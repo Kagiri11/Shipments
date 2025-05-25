@@ -1,18 +1,14 @@
-// File: com/cmaina/shipments/ui/screens/home/HomeScreen.kt
 package com.cmaina.shipments.ui.screens.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -27,7 +23,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -45,8 +40,6 @@ fun HomeScreen(
     LaunchedEffect(uiState.errorMessage) {
         uiState.errorMessage?.let { message ->
             snackbarHostState.showSnackbar(message)
-            // ViewModel should have a way to clear the message after it's shown
-            // e.g., homeViewModel.clearErrorMessage()
         }
     }
 
@@ -67,7 +60,7 @@ fun HomeScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(), // Apply only top padding from scaffold
+                    .padding(),
             ) {
                 // Section 1: Top Header (User Info & Notifications)
                 uiState.userDisplayInfo?.let { userInfo ->
@@ -82,9 +75,9 @@ fun HomeScreen(
                 // Section 2: Search Bar
                 HomeSearchBar(
                     searchQuery = uiState.searchQuery,
-                    onQueryChange = homeViewModel::onSearchQueryChanged, // Using function reference
-                    onScanClick = homeViewModel::onScanReceiptClicked, // Using function reference
-                    onFocused = { homeViewModel.setSearchActive(true)}// Using function reference
+                    onQueryChange = homeViewModel::onSearchQueryChanged,
+                    onScanClick = homeViewModel::onScanReceiptClicked,
+                    onFocused = { homeViewModel.setSearchActive(true)}
                 )
 
                 Box {
@@ -94,11 +87,10 @@ fun HomeScreen(
                     ) {
                         Spacer(modifier = Modifier.height(24.dp))
                         // Section 3: Tracking Information
-                        // Only show if there's tracking info available
                         uiState.activeTrackingSummary?.let { trackingInfo ->
                             TrackingSection(
                                 trackingInfo = trackingInfo,
-                                onAddStopClick = homeViewModel::onAddStopClicked // Using function reference
+                                onAddStopClick = homeViewModel::onAddStopClicked
                             )
                         }
 

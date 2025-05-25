@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cmaina.shipments.domain.model.Shipment
 import com.cmaina.shipments.domain.model.ShipmentStatus
+import com.cmaina.shipments.ui.theme.ShipmentsSmokeWhite
 import com.cmaina.shipments.utils.getSampleShipments
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -72,7 +73,7 @@ fun ShipmentStatusTag(status: ShipmentStatus, modifier: Modifier = Modifier) {
     val statusDisplay = getStatusDisplay(status)
     Row(
         modifier = modifier
-            .clip(RoundedCornerShape(16.dp)) // Pill shape
+            .clip(RoundedCornerShape(16.dp))
             .background(statusDisplay.backgroundColor)
             .padding(horizontal = 8.dp, vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -101,14 +102,14 @@ fun ShipmentItemCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 6.dp, horizontal = 16.dp), // Added horizontal padding to match screen
+            .padding(vertical = 6.dp, horizontal = 16.dp),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+        colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Column(
             modifier = Modifier
-                .padding(16.dp) // Inner padding for the card content
+                .padding(16.dp)
                 .fillMaxWidth()
         ) {
             // Top Row: Status Tag
@@ -128,25 +129,25 @@ fun ShipmentItemCard(
             // Middle Row: Description and Image
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.Top, // Or CenterVertically if preferred
+                verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = shipment.fullDescription,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.weight(1f) // Takes available space
+                    modifier = Modifier.weight(1f)
                 )
 
                 Spacer(modifier = Modifier.width(16.dp))
 
                 // Placeholder Box Icon
                 Icon(
-                    imageVector = Icons.Filled.MoreVert, // Replace with your actual box icon
+                    imageVector = Icons.Filled.MoreVert,
                     contentDescription = "Shipment Package",
                     tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
                     modifier = Modifier
-                        .size(48.dp) // Adjust size as needed
+                        .size(48.dp)
                         .background(
                             MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f),
                             RoundedCornerShape(8.dp)
@@ -163,7 +164,7 @@ fun ShipmentItemCard(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
-                    text = "${shipment.price} ${shipment.currency}",
+                    text = "$${shipment.price} ${shipment.currency}",
                     style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onSurface
                 )

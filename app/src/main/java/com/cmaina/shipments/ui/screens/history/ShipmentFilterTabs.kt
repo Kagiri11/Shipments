@@ -16,14 +16,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.cmaina.shipments.ui.theme.ShipmentsPurple
 
 // Define colors (or import from your theme's color file)
 val TabIndicatorColor = Color(0xFFFFA726) // Orange
 val TabBadgeBackgroundColor = TabIndicatorColor
-val TabBadgeContentColor = Color.Black // Using black for better contrast on orange
-val TabRowContainerColor = PurpleAppBarBackground // Defined in TopAppBar section
-val SelectedTabContentColor = Color.White
-val UnselectedTabContentColor = Color.White.copy(alpha = 0.7f)
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,7 +35,7 @@ fun ShipmentFilterTabs(
         selectedTabIndex = selectedTabIndex,
         modifier = modifier
             .fillMaxWidth()
-            .background(TabRowContainerColor), // Purple background for the TabRow container
+            .background(ShipmentsPurple),
         edgePadding = 0.dp, // No extra padding at the edges of the TabRow
         indicator = { tabPositions ->
             if (selectedTabIndex < tabPositions.size) {
@@ -48,12 +45,13 @@ fun ShipmentFilterTabs(
                     color = TabIndicatorColor // Orange indicator
                 )
             }
-        },
-        divider = { /* No divider, or customize if needed */ }
+        }
     ) {
         tabs.forEachIndexed { index, tabItem ->
+            val isSelected = selectedTabIndex == index
             Tab(
-                selected = selectedTabIndex == index,
+                modifier = Modifier.background(ShipmentsPurple),
+                selected = isSelected,
                 onClick = { onTabSelected(index) },
                 text = {
                     Row(
@@ -62,27 +60,28 @@ fun ShipmentFilterTabs(
                     ) {
                         Text(
                             text = tabItem.type.displayName,
-                            fontWeight = if (selectedTabIndex == index) FontWeight.Bold else FontWeight.Normal
+                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
                         )
                         // Badge for count
                         Box(
                             modifier = Modifier
-                                .size(20.dp) // Adjust size as needed
+                                .height(20.dp)
+                                .width(28.dp)
                                 .clip(CircleShape)
-                                .background(TabBadgeBackgroundColor),
+                                .background(if(isSelected) TabBadgeBackgroundColor else Color.White.copy(alpha = 0.3F)),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
                                 text = tabItem.count.toString(),
-                                color = TabBadgeContentColor,
-                                fontSize = 10.sp, // Adjust font size as needed
+                                color = if(isSelected) Color.White else Color.White.copy(alpha = 0.5F),
+                                fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         }
                     }
                 },
-                selectedContentColor = SelectedTabContentColor, // White for selected tab text
-                unselectedContentColor = UnselectedTabContentColor // Lighter white for unselected
+                selectedContentColor = Color.White,
+                unselectedContentColor = Color.White.copy(alpha = 0.5F)
             )
         }
     }

@@ -12,9 +12,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.cmaina.shipments.ui.theme.ShipmentsPurple
 
 // Define colors (or import from your theme's color file)
-val PurpleAppBarBackground = Color(0xFF4A004E) // Adjusted to a slightly different deep purple
 val PurpleAppBarContent = Color.White
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,7 +40,7 @@ fun ShipmentHistoryTopAppBar(
             }
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = PurpleAppBarBackground,
+            containerColor = ShipmentsPurple,
             titleContentColor = PurpleAppBarContent,
             navigationIconContentColor = PurpleAppBarContent
         )

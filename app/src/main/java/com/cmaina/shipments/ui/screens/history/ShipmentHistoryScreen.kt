@@ -1,5 +1,7 @@
 package com.cmaina.shipments.ui.screens.history
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,22 +21,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cmaina.shipments.domain.model.Shipment
-import com.cmaina.shipments.ui.model.getSampleTabItems
-import com.cmaina.shipments.utils.getSampleShipments
-
-// This would typically come from a ViewModel
-// For now, we'll use the sample data directly
-val sampleShipmentsForScreen = getSampleShipments().shuffled()
-val sampleTabsForScreen = getSampleTabItems()
+import com.cmaina.shipments.ui.theme.ShipmentsSmokeWhite
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,20 +36,17 @@ fun ShipmentHistoryScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    // The Scaffold will be used later to add the TopAppBar and TabRow
     Scaffold(
         topBar = {
-            ShipmentHistoryTopAppBar(
-                onNavigationIconClick = onNavigateBack // Connect the click handler
-            )
+            ShipmentHistoryTopAppBar(onNavigationIconClick = onNavigateBack)
         }
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .padding(innerPadding) // Apply padding from Scaffold
+                .padding(top = innerPadding.calculateTopPadding())
                 .fillMaxSize()
         ) {
-            if (uiState.tabItems.isNotEmpty()) { // Show tabs only if available
+            if (uiState.tabItems.isNotEmpty()) {
                 ShipmentFilterTabs(
                     tabs = uiState.tabItems,
                     selectedTabIndex = uiState.selectedTabIndex,
@@ -67,18 +56,21 @@ fun ShipmentHistoryScreen(
                 )
             }
 
-            // Handle loading state
-            if (uiState.isLoading) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
+            AnimatedContent(
+                targetState = uiState.isLoading
+            ) { isLoading ->
+                if (isLoading) {
+                    Box(
+                        modifier = Modifier.fillMaxSize().background(color = ShipmentsSmokeWhite),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                } else {
+                    ShipmentHistoryContent(
+                        shipments = uiState.displayedShipments
+                    )
                 }
-            } else {
-                ShipmentHistoryContent(
-                    shipments = uiState.displayedShipments
-                )
             }
         }
     }
@@ -92,40 +84,33 @@ fun ShipmentHistoryContent(
     Column(
         modifier = modifier
             .fillMaxSize()
-        //.padding(horizontal = 16.dp) // Horizontal padding is on cards or screen level
+            .background(ShipmentsSmokeWhite)
     ) {
-        // "Shipments" Header
         Text(
             text = "Shipments",
             style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
             modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp) // Adjusted padding
+                .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
         )
 
-        // List of Shipment Cards
         if (shipments.isEmpty()) {
-            // Optional: Show a message if there are no shipments
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp),
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text("No shipments to display.", style = MaterialTheme.typography.bodyLarge)
             }
         } else {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(vertical = 6.dp) // Padding around the list itself
-                // Item padding is handled by the ShipmentItemCard's outer padding now
+                contentPadding = PaddingValues(vertical = 6.dp)
             ) {
-                items(shipments, key = { it.id }) { shipment ->
+                items(shipments) { shipment ->
                     ShipmentItemCard(
                         shipment = shipment
-                        // Modifier for the card is already set within ShipmentItemCard
-                        // Or you can add specific list item modifiers here if needed
-                        // e.g., Modifier.padding(horizontal = 16.dp) if not on card
                     )
                 }
             }
@@ -133,10 +118,10 @@ fun ShipmentHistoryContent(
     }
 }
 
-@Preview(showBackground = true, device = "spec:width=1080px,height=2340px,dpi=440")
+@Preview(showBackground = true)
 @Composable
 fun ShipmentHistoryScreenPreview() {
-    MaterialTheme { // Ensure your custom theme is applied if you have one
+    MaterialTheme {
         ShipmentHistoryScreen{}
     }
 }

@@ -39,9 +39,6 @@ import androidx.compose.ui.unit.dp
 import com.cmaina.shipments.ui.theme.ShipmentsBrown
 import com.cmaina.shipments.ui.theme.ShipmentsPurple
 
-// Color defined in HomeScreen.kt or your Theme.kt
-// val SearchBarIconBackgroundColor = Color(0xFFFFA726) // Orange
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeSearchBar(

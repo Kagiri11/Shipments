@@ -46,6 +46,7 @@ import com.cmaina.shipments.R // For placeholder drawables
 import com.cmaina.shipments.domain.model.tracking.ActiveTrackingSummary
 import com.cmaina.shipments.domain.model.tracking.TrackingParty
 import com.cmaina.shipments.ui.theme.ShipmentsBrown
+import com.cmaina.shipments.ui.theme.ShipmentsGrey
 import com.cmaina.shipments.ui.theme.ShipmentsSmokeWhite
 
 // --- Tracking Section Composable ---
@@ -78,27 +79,34 @@ fun TrackingInfoSection(
     trackingInfo: ActiveTrackingSummary,
     onAddStopClick: () -> Unit
 ) {
-    Card(modifier = Modifier.wrapContentHeight(), colors = CardDefaults.cardColors(containerColor = Color.White), elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)) {
+    Card(
+        modifier = Modifier.wrapContentHeight(),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
             // Top: Shipment Number and Forklift Icon
+            Spacer(modifier = Modifier.height(8.dp))
             Row(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
                     Text(
                         text = "Shipment Number",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.primary
+                        style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Normal),
+                        color = ShipmentsGrey
                     )
                     Text(
                         text = trackingInfo.shipmentNumber,
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.primary
+                        color = Color.Black
                     )
                 }
 
@@ -131,7 +139,10 @@ fun TrackingInfoSection(
             // Middle: Sender/Time and Receiver/Status Details
             // Row 1: Sender and Time
             Row(
-                modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Min).padding(horizontal = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(IntrinsicSize.Min)
+                    .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 TrackingDetailItem(
@@ -144,7 +155,12 @@ fun TrackingInfoSection(
                                 .padding(4.dp),
                             contentAlignment = Alignment.Center
                         ) {
-                            Icon(Icons.Filled.Apartment, contentDescription = "Sender Icon", tint = Color(0xFFFB8C00), modifier = Modifier.size(16.dp)) // Darker Orange
+                            Icon(
+                                Icons.Filled.Apartment,
+                                contentDescription = "Sender Icon",
+                                tint = Color(0xFFFB8C00),
+                                modifier = Modifier.size(16.dp)
+                            ) // Darker Orange
                         }
                     },
                     label = "Sender",
@@ -161,7 +177,7 @@ fun TrackingInfoSection(
                         )
                     },
                     label = "Time",
-                    value = "• ${trackingInfo.deliveryTimeEstimate}", // Added bullet here for consistency
+                    value = trackingInfo.deliveryTimeEstimate, // Added bullet here for consistency
                     modifier = Modifier.weight(1f)
                 )
             }
@@ -170,7 +186,10 @@ fun TrackingInfoSection(
 
             // Row 2: Receiver and Status
             Row(
-                modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Min).padding(horizontal = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(IntrinsicSize.Min)
+                    .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 TrackingDetailItem(
@@ -183,7 +202,12 @@ fun TrackingInfoSection(
                                 .padding(4.dp),
                             contentAlignment = Alignment.Center
                         ) {
-                            Icon(Icons.Filled.Apartment, contentDescription = "Receiver Icon", tint = Color(0xFF388E3C), modifier = Modifier.size(16.dp)) // Darker Green
+                            Icon(
+                                Icons.Filled.Apartment,
+                                contentDescription = "Receiver Icon",
+                                tint = Color(0xFF388E3C),
+                                modifier = Modifier.size(16.dp)
+                            ) // Darker Green
                         }
                     },
                     label = "Receiver",
@@ -208,17 +232,23 @@ fun TrackingInfoSection(
 
             // Bottom: Add Stop Button
             if (trackingInfo.allowAddStopFeature) {
-                Row(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-                    horizontalArrangement = Arrangement.Center) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
                     Icon(
                         imageVector = Icons.Filled.Add,
                         contentDescription = "Add Stop Icon",
                         modifier = Modifier.size(18.dp),
                         tint = ShipmentsBrown
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = "Add Stop",
-                        color = ShipmentsBrown)
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = "Add Stop",
+                        color = ShipmentsBrown
+                    )
                 }
             }
         }
@@ -233,22 +263,19 @@ fun TrackingDetailItem(
     value: String,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.Top // Align icon to top if text wraps
-    ) {
-        icon?.let {
-            Box(modifier = Modifier.padding(top = 4.dp)) { // Align icon with first line of text
-                it()
+    Column {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Row {
+            icon?.let {
+                Box(modifier = Modifier.padding(top = 4.dp)) { // Align icon with first line of text
+                    it()
+                }
+                Spacer(modifier = Modifier.width(5.dp))
             }
-            Spacer(modifier = Modifier.width(8.dp))
-        }
-        Column {
-            Text(
-                text = label,
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
             Text(
                 text = value,
                 style = MaterialTheme.typography.bodyMedium,

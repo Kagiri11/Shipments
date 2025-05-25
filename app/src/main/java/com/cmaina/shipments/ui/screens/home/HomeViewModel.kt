@@ -153,7 +153,7 @@ class HomeViewModel : ViewModel() {
             vehicleIconUrl = null, // Or a placeholder/test image URL for the forklift
             sender = TrackingParty(city = "Atlanta", locationCode = "5243"),
             receiver = TrackingParty(city = "Chicago", locationCode = "6342"),
-            deliveryTimeEstimate = "2 day -3 days",
+            deliveryTimeEstimate = "2 day - 3 days",
             statusDescription = "Waiting to collect",
             allowAddStopFeature = true
         )

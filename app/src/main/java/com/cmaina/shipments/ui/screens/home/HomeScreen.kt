@@ -21,9 +21,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.cmaina.shipments.R
 import com.cmaina.shipments.ui.screens.home.components.SearchResultsList
 import com.cmaina.shipments.ui.theme.ShipmentsSmokeWhite
 
@@ -87,7 +88,6 @@ fun HomeScreen(
                         )
                     }
 
-                    // Spacer after tracking (only if tracking info was present)
                     if (uiState.activeTrackingSummary != null) {
                         Spacer(modifier = Modifier.height(24.dp))
                     }
@@ -96,19 +96,18 @@ fun HomeScreen(
                     if (uiState.availableVehicles.isNotEmpty()) {
                         AvailableVehiclesSection(
                             vehicles = uiState.availableVehicles,
-                            onVehicleSelected = homeViewModel::onVehicleOptionSelected // Using function reference
+                            onVehicleSelected = homeViewModel::onVehicleOptionSelected
                         )
                     } else if (uiState.activeTrackingSummary == null) {
-                        // Fallback content if no tracking and no vehicles (and not loading)
                         Box(
                             modifier = Modifier
-                                .fillMaxHeight(0.5f) // Take up some space
+                                .fillMaxHeight(0.5f)
                                 .fillMaxWidth()
                                 .padding(16.dp),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                "No information to display at the moment.",
+                                stringResource(R.string.no_information_to_display_at_the_moment),
                                 style = MaterialTheme.typography.bodyLarge
                             )
                         }
@@ -119,18 +118,10 @@ fun HomeScreen(
                         results = uiState.searchResults,
                         isLoading = uiState.isSearchLoading,
                         searchQuery = uiState.searchQuery,
-                        onItemClick = { /* Handle item click */ }
+                        onItemClick = { homeViewModel.setSearchActive(false) }
                     )
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true, device = "spec:width=1080px,height=2340px,dpi=440")
-@Composable
-fun HomeScreenIntegratedPreview() {
-    MaterialTheme {
-//        HomeScreen(homeViewModel = HomeViewModel()) // ViewModel init will load sample data
     }
 }

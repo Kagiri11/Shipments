@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">Shipments</string>
+    <string name="no_shipments_to_display">No shipments to display.</string>
+    <string name="shipment_history">Shipment history</string>
+    <string name="back">Back</string>
+    <string name="movemate">MoveMate</string>
+    <string name="search_by_receipt_number">Search by receipt number...</string>
+    <string name="no_results_found_for">No results found for \"%1$s\"</string>
+    <string name="available_vehicles">Available vehicles</string>
+    <string name="no_information_to_display_at_the_moment">No information to display at the moment.</string>
+    <string name="enter_the_receipt_number">Enter the receipt number ...</string>
+    <string name="time">Time</string>
+    <string name="sender">Sender</string>
+    <string name="atalanta_5243">Atalanta, 5243</string>
+    <string name="sender_icon">Sender Icon</string>
+    <string name="shipment_number">Shipment Number</string>
+    <string name="tracking">Tracking</string>
+    <string name="payments">Payments</string>
+    <string name="terms_of_service">Terms of Service</string>
+    <string name="logout">Logout</string>
+    <string name="total_estimated_amount">Total Estimated Amount</string>
+    <string name="this_amount_is_estimated_this_will_vary_if_you_change_your_location_or_weight">This amount is estimated, this will vary if you change your location or weight.</string>
+    <string name="back_to_home">Back to home</string>
 </resources>

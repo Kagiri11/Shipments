@@ -1,8 +1,6 @@
 package com.cmaina.shipments.ui.screens.history
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateValueAsState
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import com.cmaina.shipments.ui.model.TabItem
 import com.cmaina.shipments.ui.model.getSampleTabItems
@@ -16,15 +14,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cmaina.shipments.ui.theme.ShipmentsPurple
 
-// Define colors (or import from your theme's color file)
-val TabIndicatorColor = Color(0xFFFFA726) // Orange
+
+val TabIndicatorColor = Color(0xFFFFA726)
 val TabBadgeBackgroundColor = TabIndicatorColor
 
 
@@ -41,13 +38,13 @@ fun ShipmentFilterTabs(
         modifier = modifier
             .fillMaxWidth()
             .background(ShipmentsPurple),
-        edgePadding = 0.dp, // No extra padding at the edges of the TabRow
+        edgePadding = 0.dp,
         indicator = { tabPositions ->
             if (selectedTabIndex < tabPositions.size) {
                 TabRowDefaults.Indicator(
                     modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
                     height = 3.dp,
-                    color = TabIndicatorColor // Orange indicator
+                    color = TabIndicatorColor
                 )
             }
         }

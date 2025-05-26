@@ -16,13 +16,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.material3.BadgedBox // For potential notification count
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api // For BadgedBox
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,20 +30,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.cmaina.shipments.R // Assuming you have a placeholder drawable
+import com.cmaina.shipments.R
 import com.cmaina.shipments.domain.model.user.UserDisplayInfo
 import com.cmaina.shipments.ui.theme.ShipmentsPurple
-
-
-// Color defined in HomeScreen.kt or your Theme.kt
-// val HomeScreenHeaderColor = Color(0xFF4A004E)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,8 +65,8 @@ fun HomeHeaderSection(
                         .data(userDisplayInfo.profileImageUrl)
                         .apply(block = fun ImageRequest.Builder.() {
                             crossfade(true)
-                            placeholder(R.drawable.ic_launcher_background) // Add a placeholder drawable
-                            error(R.drawable.ic_launcher_background)       // Add an error drawable
+                            placeholder(R.drawable.ic_launcher_background)
+                            error(R.drawable.ic_launcher_background)
                         }).build()
                 ),
                 contentDescription = "User Profile Image",

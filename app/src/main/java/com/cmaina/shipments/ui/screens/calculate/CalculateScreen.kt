@@ -93,7 +93,6 @@ fun CalculateScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Placeholder for Packaging Section
             PackagingSection(
                 uiState = uiState,
                 onPackagingSelected = { packaging ->
@@ -103,7 +102,6 @@ fun CalculateScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Placeholder for Categories Section
             CategoriesSection(
                 uiState = uiState,
                 onCategoryToggled = {
@@ -134,11 +132,10 @@ fun CalculateScreen(
                         "Calculate",
                         style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp),
                         color = MaterialTheme.colorScheme.onPrimary
-                    ) // Assuming white or dark text on orange
+                    )
                 }
             }
 
-            // Display calculation result (optional, could be a dialog or navigation)
             uiState.calculationResult?.let { result ->
                 Text(
                     text = result,
@@ -166,7 +163,7 @@ fun CategoriesSection(
             modifier = Modifier.padding(bottom = 4.dp)
         )
         Text(
-            text = "What are you sending?", // Same subtitle, as per design
+            text = "What are you sending?",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(bottom = 12.dp)

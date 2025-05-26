@@ -1,4 +1,3 @@
-// File: com/cmaina/shipments/ui/screens/success/SuccessScreen.kt
 package com.cmaina.shipments.ui.screens.success
 
 import android.app.Activity
@@ -33,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -46,17 +46,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.LifecycleStartEffect
 import com.cmaina.shipments.R // Assuming your R file for drawables
+import com.cmaina.shipments.ui.theme.LogoTextColor
 import com.cmaina.shipments.ui.theme.ShipmentsBrown
 import com.cmaina.shipments.ui.theme.ShipmentsPurple
 import com.cmaina.shipments.ui.theme.ShipmentsSmokeWhite
+import com.cmaina.shipments.ui.theme.SuccessAmountColor
+import com.cmaina.shipments.ui.theme.SuccessButtonBackgroundColor
+import com.cmaina.shipments.ui.theme.SuccessCurrencyColor
+import com.cmaina.shipments.ui.theme.SuccessDisclaimerColor
 
-// Define colors used in this screen
-private val SuccessAmountColor = Color(0xFF2E7D32) // A shade of green
-private val SuccessCurrencyColor = Color(0xFF4CAF50) // A lighter or complementary green
-private val SuccessDisclaimerColor = Color.Gray
-private val SuccessButtonBackgroundColor = Color(0xFFFFA726) // Orange, similar to Calculate button
-private val SuccessButtonTextColor = Color.White
-private val LogoTextColor = Color(0xFF3F51B5) // Example: Indigo for "MoveMate"
 
 @Composable
 fun SuccessScreen(
@@ -83,23 +81,22 @@ fun SuccessScreen(
             .background(ShipmentsSmokeWhite)
             .padding(horizontal = 24.dp, vertical = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween // Pushes button to bottom if content is sparse
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             // Logo Section
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "MoveMate",
-                    fontSize = 28.sp, // Adjust as needed
+                    text = stringResource(R.string.movemate),
+                    fontSize = 28.sp,
                     fontWeight = FontWeight.Bold,
-                    color = LogoTextColor // Use your brand color
-                    // fontFamily = YourCustomFont // If you have a custom font for logo
+                    color = LogoTextColor
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Icon(
-                    imageVector = Icons.Filled.LocalShipping, // Replace with your actual logo icon
+                    imageVector = Icons.Filled.LocalShipping,
                     contentDescription = "Logo Truck",
-                    tint = SuccessButtonBackgroundColor, // Using orange for the truck icon
+                    tint = SuccessButtonBackgroundColor,
                     modifier = Modifier.size(32.dp)
                 )
             }
@@ -108,17 +105,16 @@ fun SuccessScreen(
 
             // Package Image
             Image(
-                // Replace with your actual drawable resource for the package
                 painter = painterResource(id = R.drawable.ic_launcher_foreground),
                 contentDescription = "Package Illustration",
-                modifier = Modifier.size(180.dp) // Adjust size as needed
+                modifier = Modifier.size(180.dp)
             )
 
             Spacer(modifier = Modifier.height(32.dp))
 
             // Title
             Text(
-                text = "Total Estimated Amount",
+                text = stringResource(R.string.total_estimated_amount),
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold
             )
@@ -131,17 +127,17 @@ fun SuccessScreen(
                     withStyle(
                         style = SpanStyle(
                             color = SuccessAmountColor,
-                            fontSize = 48.sp, // Large font for amount
+                            fontSize = 48.sp,
                             fontWeight = FontWeight.Bold
                         )
                     ) {
-                        append("$$estimatedAmount") // Assuming currency symbol is needed
+                        append("$$estimatedAmount")
                     }
                     append(" ")
                     withStyle(
                         style = SpanStyle(
                             color = SuccessCurrencyColor,
-                            fontSize = 20.sp, // Smaller font for currency code
+                            fontSize = 20.sp,
                             fontWeight = FontWeight.Normal
                         )
                     ) {
@@ -154,7 +150,7 @@ fun SuccessScreen(
 
             // Disclaimer Text
             Text(
-                text = "This amount is estimated, this will vary if you change your location or weight.",
+                text = stringResource(R.string.this_amount_is_estimated_this_will_vary_if_you_change_your_location_or_weight),
                 style = MaterialTheme.typography.bodySmall,
                 color = SuccessDisclaimerColor,
                 textAlign = TextAlign.Center,
@@ -167,8 +163,8 @@ fun SuccessScreen(
             onClick = onBackToHomeClick,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 32.dp), // Ensure some space if content above is short
-            shape = MaterialTheme.shapes.extraLarge, // For highly rounded corners
+                .padding(top = 32.dp),
+            shape = MaterialTheme.shapes.extraLarge,
             colors = ButtonDefaults.buttonColors(
                 containerColor = ShipmentsBrown,
                 contentColor = Color.White
@@ -176,7 +172,7 @@ fun SuccessScreen(
             contentPadding = PaddingValues(vertical = 16.dp)
         ) {
             Text(
-                text = "Back to home",
+                text = stringResource(R.string.back_to_home),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold
             )
@@ -187,7 +183,7 @@ fun SuccessScreen(
 @Preview(showBackground = true, device = "spec:width=1080px,height=2340px,dpi=440")
 @Composable
 fun SuccessScreenPreview() {
-    MaterialTheme { // Wrap with your app's theme
+    MaterialTheme {
         SuccessScreen()
     }
 }

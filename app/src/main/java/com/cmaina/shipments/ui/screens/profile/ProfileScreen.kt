@@ -30,31 +30,30 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.cmaina.shipments.R
 import com.cmaina.shipments.ui.theme.ShipmentsPurple
 import com.cmaina.shipments.ui.theme.ShipmentsSmokeWhite
 import java.util.Locale
 
-// Define colors used in this screen
 private val ProfileIconSize = 100.dp
-private val ProfileIconBorderWidth = 2.dp // Width of the white border around the icon if needed
+private val ProfileIconBorderWidth = 2.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    // These would typically come from a ViewModel
     userName: String = "Kevin Fafa",
-    email: String = "charlesmaish422@gmail.com",
-    phoneNumber: String = "+254748779136",
+    email: String = "ffkevin@gmail.com",
+    phoneNumber: String = "+254748792136",
     onPaymentsClick: () -> Unit = {},
     onTermsOfServiceClick: () -> Unit = {},
     onLogoutClick: () -> Unit = {}
 ) {
-
-    // Profile Icon (KF)
+    // Profile Icon
     val initials by remember(userName) {
         derivedStateOf {
             val names = userName.split(" ").filter { it.isNotBlank() }
@@ -142,16 +141,16 @@ fun ProfileScreen(
 
         Divider(modifier = Modifier.padding(horizontal = 24.dp))
 
-        Spacer(modifier = Modifier.height(32.dp)) // More space before the list items
+        Spacer(modifier = Modifier.height(32.dp))
 
         // Options List
         Column(modifier = Modifier.fillMaxWidth()) {
-            ProfileOptionRow(text = "Payments", onClick = onPaymentsClick)
+            ProfileOptionRow(text = stringResource(R.string.payments), onClick = onPaymentsClick)
 
-            ProfileOptionRow(text = "Terms of Service", onClick = onTermsOfServiceClick)
-            ProfileOptionRow(text = "Logout", onClick = onLogoutClick)
+            ProfileOptionRow(text = stringResource(R.string.terms_of_service), onClick = onTermsOfServiceClick)
+            ProfileOptionRow(text = stringResource(R.string.logout), onClick = onLogoutClick)
         }
-        Spacer(modifier = Modifier.height(16.dp)) // Some padding at the very bottom
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 
@@ -161,13 +160,13 @@ fun ProfileOptionRow(text: String, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(horizontal = 24.dp, vertical = 18.dp), // Increased vertical padding for better touch
+            .padding(horizontal = 24.dp, vertical = 18.dp),
         contentAlignment = Alignment.CenterStart
     ) {
         Text(
             text = text,
             style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.Medium // Slightly bolder for list items
+            fontWeight = FontWeight.Medium
         )
     }
 }
@@ -175,7 +174,6 @@ fun ProfileOptionRow(text: String, onClick: () -> Unit) {
 @Preview(showBackground = true, device = "spec:width=1080px,height=2340px,dpi=440")
 @Composable
 fun ProfileScreenPreview() {
-    // Assuming you have a MaterialTheme wrapper in your actual app setup
     MaterialTheme {
         ProfileScreen()
     }

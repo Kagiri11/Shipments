@@ -1,4 +1,3 @@
-// File: com/cmaina/shipments/ui/screens/calculate/components/FormEntryField.kt
 package com.cmaina.shipments.ui.screens.calculate.components
 
 import androidx.compose.foundation.background
@@ -32,8 +31,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cmaina.shipments.ui.theme.ShipmentsGrey
 import com.cmaina.shipments.ui.theme.ShipmentsSmokeWhite
-
-val FormFieldBackgroundColor = Color(0xFFF0F0F0) // Light grey
 
 @Composable
 fun FormEntryField(
@@ -98,7 +95,7 @@ fun FormEntryFieldPreview() {
             )
             FormEntryField(
                 icon = Icons.Outlined.LocationOn,
-                label = "Nairobi, Kenya", // Example with a value
+                label = "Nairobi, Kenya",
                 onClick = {}
             )
             FormEntryField(

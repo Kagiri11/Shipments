@@ -1,5 +1,3 @@
-// File: com/cmaina/shipments/ui/screens/home/components/ShipmentSearchResultItemView.kt
-// (Creating a new sub-package 'components' for better organization within the 'home' screen package)
 package com.cmaina.shipments.ui.screens.home.components
 
 import androidx.compose.foundation.background
@@ -76,11 +74,11 @@ fun ShipmentSearchResultItemView(
                     text = "${item.shipmentNumber} • ${item.originCity} → ${item.destinationCity}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontSize = 12.sp // Explicitly smaller as per design
+                    fontSize = 12.sp
                 )
             }
         }
-        Divider(modifier = Modifier.padding(start = 72.dp)) // Start divider after icon + padding
+        Divider(modifier = Modifier.padding(start = 72.dp))
     }
 }
 

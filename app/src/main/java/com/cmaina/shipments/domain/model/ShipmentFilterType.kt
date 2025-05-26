@@ -5,5 +5,4 @@ enum class ShipmentFilterType(val displayName: String) {
     COMPLETED("Completed"),
     IN_PROGRESS("In progress"),
     PENDING("Pending");
-    // Add other filter types if they exist, e.g., "Cancelled"
 }

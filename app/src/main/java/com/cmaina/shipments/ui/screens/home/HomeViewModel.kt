@@ -30,9 +30,7 @@ class HomeViewModel : ViewModel() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
 
-            // Simulate fetching various pieces of data.
-            // In a real app, these would be calls to UseCases or Repositories.
-            delay(1500) // Simulate overall loading time
+            delay(1000) // Simulate overall loading time
 
             val fetchedUserDisplayInfo = provideSampleUserDisplayInfo()
             val fetchedTrackingSummary = provideSampleActiveTrackingSummary()
@@ -60,7 +58,6 @@ class HomeViewModel : ViewModel() {
             _uiState.update { it.copy(searchQuery = "", searchResults = emptyList(), isSearchLoading = false) }
             searchJob?.cancel()
         } else if (_uiState.value.searchQuery.isNotBlank()) {
-            // If activating search and there's already a query, trigger search
             onSearchQueryChanged(_uiState.value.searchQuery)
         }
     }
@@ -68,9 +65,6 @@ class HomeViewModel : ViewModel() {
     fun onSearchQueryChanged(query: String) {
         _uiState.update { it.copy(searchQuery = query) }
         if (query.isBlank() && _uiState.value.isSearchActive) {
-            // If query is blank but search was active, maybe just clear results but stay in search mode
-            // Or, call onSearchCancelled() if blank query means exiting search mode.
-            // For now, let's assume blank query just clears results if search is active.
             _uiState.update { it.copy(searchResults = emptyList(), isSearchLoading = false) }
             searchJob?.cancel()
             return
@@ -92,15 +86,9 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    // Called when the user taps the back arrow displayed during search mode
-    fun onBackFromSearchClicked() {
-        setSearchActive(false)
-    }
-
     // --- Mock search implementation ---
     private fun performSearch(query: String): List<ShipmentSearchResult> {
         if (query.isBlank()) return emptyList()
-        // Simulate filtering based on a predefined list
         val allPossibleResults = listOf(
             ShipmentSearchResult("1", "Macbook pro M2", "#NE43857340857904", "Paris", "Morocco"),
             ShipmentSearchResult("2", "Summer linen jacket", "#NEJ20089934122231", "Barcelona", "Paris"),
@@ -115,7 +103,6 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    // ... (keep other ViewModel functions: onScanReceiptClicked, onNotificationClicked, etc.)
     fun onScanReceiptClicked() {
         _uiState.update { it.copy(errorMessage = "Scan feature not implemented.") }
     }
@@ -125,7 +112,6 @@ class HomeViewModel : ViewModel() {
     }
 
     fun onLocationClicked() {
-        // TODO: Implement logic to change location
         _uiState.update { it.copy(errorMessage = "Location change not implemented.") }
     }
 
@@ -138,10 +124,8 @@ class HomeViewModel : ViewModel() {
     }
 
 
-    // --- Sample Data Providers (Replace with actual data sources) ---
     private fun provideSampleUserDisplayInfo(): UserDisplayInfo {
         return UserDisplayInfo(
-            // You can use a real image URL for testing if you have one, or keep it null
             profileImageUrl = "https://picsum.photos/seed/user1/100/100",
             currentLocation = "Wertheimer, Illinois"
         )
@@ -150,7 +134,7 @@ class HomeViewModel : ViewModel() {
     private fun provideSampleActiveTrackingSummary(): ActiveTrackingSummary {
         return ActiveTrackingSummary(
             shipmentNumber = "NEJ20089934122231",
-            vehicleIconUrl = null, // Or a placeholder/test image URL for the forklift
+            vehicleIconUrl = null,
             sender = TrackingParty(city = "Atlanta", locationCode = "5243"),
             receiver = TrackingParty(city = "Chicago", locationCode = "6342"),
             deliveryTimeEstimate = "2 day - 3 days",
@@ -165,7 +149,6 @@ class HomeViewModel : ViewModel() {
                 id = "ocean_freight_01",
                 name = "Ocean freight",
                 description = "International",
-                // Replace with actual or placeholder image URLs
                 imageUrl = "https://picsum.photos/seed/ocean/300/200"
             ),
             VehicleOption(

@@ -10,29 +10,24 @@ enum class CalculateFormField {
 }
 
 data class CalculateScreenUiState(
-    // Input field values
     val senderLocation: String = "",
     val receiverLocation: String = "",
-    val approxWeight: String = "", // Will be parsed to a number in ViewModel
+    val approxWeight: String = "",
 
-    // Packaging options and selection
     val packagingOptions: List<String> = listOf("Box", "Envelope", "Pallet", "Custom"),
     val selectedPackaging: String = packagingOptions.firstOrNull() ?: "",
 
-    // Category options and selections
     val categoryOptions: List<String> = listOf(
         "Documents", "Glass", "Liquid", "Food",
         "Electronics", "Product", "Others"
     ),
-    val selectedCategories: Set<String> = emptySet(), // Allows multiple category selections
-
+    val selectedCategories: Set<String> = emptySet(),
     // State flags
-    val isCalculating: Boolean = false, // True when "Calculate" is pressed and processing
-
+    val isCalculating: Boolean = false,
     val navigateToSuccessScreen: Boolean = false,
 
     // Result and error handling
-    val calculationResult: String? = null, // Could be a more structured type later
-    val fieldErrors: Map<CalculateFormField, String> = emptyMap(), // To show errors for specific fields
-    val generalErrorMessage: String? = null // For errors not specific to a field
+    val calculationResult: String? = null,
+    val fieldErrors: Map<CalculateFormField, String> = emptyMap(),
+    val generalErrorMessage: String? = null
 )

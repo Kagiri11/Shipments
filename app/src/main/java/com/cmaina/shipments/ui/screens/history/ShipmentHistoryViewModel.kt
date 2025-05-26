@@ -29,8 +29,8 @@ class ShipmentHistoryViewModel : ViewModel() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             // Simulate network delay or data fetching
-            delay(1000) // TODO: Remove this in a real app
-            allShipments = getSampleShipments() // Replace with actual data source call
+            delay(300)
+            allShipments = getSampleShipments()
 
             val calculatedTabItems = calculateTabItems(allShipments)
             val initialSelectedTabIndex = 0 // Default to "All"
@@ -71,7 +71,6 @@ class ShipmentHistoryViewModel : ViewModel() {
                 ShipmentFilterType.COMPLETED -> sourceShipments.count { it.status == ShipmentStatus.COMPLETED }
                 ShipmentFilterType.IN_PROGRESS -> sourceShipments.count { it.status == ShipmentStatus.IN_PROGRESS }
                 ShipmentFilterType.PENDING -> sourceShipments.count { it.status == ShipmentStatus.PENDING }
-                // Add cases for other statuses if your ShipmentFilterType enum grows
             }
             TabItem(type = filterType, count = count)
         }
@@ -86,15 +85,14 @@ class ShipmentHistoryViewModel : ViewModel() {
             ShipmentFilterType.COMPLETED -> sourceShipments.filter { it.status == ShipmentStatus.COMPLETED }
             ShipmentFilterType.IN_PROGRESS -> sourceShipments.filter { it.status == ShipmentStatus.IN_PROGRESS }
             ShipmentFilterType.PENDING -> sourceShipments.filter { it.status == ShipmentStatus.PENDING }
-            // Add cases for other statuses
         }
     }
 }
 
 data class ShipmentHistoryUiState(
-    val displayedShipments: List<Shipment> = emptyList(), // Renamed for clarity
+    val displayedShipments: List<Shipment> = emptyList(),
     val tabItems: List<TabItem> = emptyList(),
     val selectedTabIndex: Int = 0,
     val isLoading: Boolean = false,
-    val errorMessage: String = "" // We'll ignore this for now as requested
+    val errorMessage: String = ""
 )

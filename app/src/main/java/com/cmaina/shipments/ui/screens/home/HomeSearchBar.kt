@@ -1,5 +1,3 @@
-// File: com/cmaina/shipments/ui/screens/home/HomeSearchBar.kt
-// (Can be in HomeScreen.kt or a new HomeComponents.kt)
 package com.cmaina.shipments.ui.screens.home
 
 import androidx.compose.foundation.background
@@ -34,8 +32,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.cmaina.shipments.R
 import com.cmaina.shipments.ui.theme.ShipmentsBrown
 import com.cmaina.shipments.ui.theme.ShipmentsPurple
 
@@ -69,7 +69,7 @@ fun HomeSearchBar(
                             onFocused()
                         }
                     },
-                placeholder = { Text("Enter the receipt number ...") },
+                placeholder = { Text(stringResource(R.string.enter_the_receipt_number)) },
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.Search,
@@ -80,26 +80,26 @@ fun HomeSearchBar(
                     Card(modifier = Modifier.wrapContentSize(), shape = CircleShape) {
                         Box(
                             modifier = Modifier
-                                .size(40.dp) // Size of the orange circle
+                                .size(40.dp)
                                 .background(ShipmentsBrown, CircleShape),
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
-                                imageVector = Icons.Filled.QrCodeScanner, // Or your specific icon
+                                imageVector = Icons.Filled.QrCodeScanner,
                                 contentDescription = "Scan Receipt",
-                                tint = Color.White, // Icon color on orange background
-                                modifier = Modifier.size(20.dp) // Size of the icon itself
+                                tint = Color.White,
+                                modifier = Modifier.size(20.dp)
                             )
                         }
                     }
                 },
-                shape = RoundedCornerShape(50), // Highly rounded corners
+                shape = RoundedCornerShape(50),
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = MaterialTheme.colorScheme.surface, // White or light surface
+                    focusedContainerColor = MaterialTheme.colorScheme.surface,
                     unfocusedContainerColor = MaterialTheme.colorScheme.surface,
                     disabledContainerColor = MaterialTheme.colorScheme.surface,
-                    focusedIndicatorColor = Color.Transparent, // No underline indicator when focused
-                    unfocusedIndicatorColor = Color.Transparent, // No underline indicator when unfocused
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent,
                 ),
                 singleLine = true
@@ -109,7 +109,7 @@ fun HomeSearchBar(
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFFF0F0F0) // Light grey background for contrast
+@Preview(showBackground = true, backgroundColor = 0xFFF0F0F0)
 @Composable
 fun HomeSearchBarPreview() {
     var query by remember { mutableStateOf("") }

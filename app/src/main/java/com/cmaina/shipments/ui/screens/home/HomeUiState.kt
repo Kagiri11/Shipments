@@ -7,15 +7,14 @@ import com.cmaina.shipments.domain.model.vehicles.VehicleOption
 
 data class HomeUiState(
     val userDisplayInfo: UserDisplayInfo? = null,
-    val notificationCount: Int = 0, // For the notification bell icon
-    val searchQuery: String = "",   // Current text in the search bar
+    val notificationCount: Int = 0,
+    val searchQuery: String = "",
     val activeTrackingSummary: ActiveTrackingSummary? = null,
     val availableVehicles: List<VehicleOption> = emptyList(),
-    val isLoading: Boolean = false, // To show a loading indicator for the whole screen
-    val errorMessage: String? = null, // To display any errors
+    val isLoading: Boolean = false,
+    val errorMessage: String? = null,
 
-    // New fields for search functionality
-    val isSearchActive: Boolean = false, // True when search UI is active (back arrow visible, results shown)
+    val isSearchActive: Boolean = false,
     val searchResults: List<ShipmentSearchResult> = emptyList(),
-    val isSearchLoading: Boolean = false // To show a loading indicator for search
+    val isSearchLoading: Boolean = false
 )

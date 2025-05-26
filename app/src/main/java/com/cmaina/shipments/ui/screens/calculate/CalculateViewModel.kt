@@ -16,14 +16,12 @@ class CalculateViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(CalculateScreenUiState())
     val uiState: StateFlow<CalculateScreenUiState> = _uiState.asStateFlow()
 
-    // --- Event Handlers for UI Interactions ---
-
     fun onSenderLocationChanged(location: String) {
         _uiState.update {
             it.copy(
                 senderLocation = location,
-                fieldErrors = it.fieldErrors - CalculateFormField.SENDER_LOCATION, // Clear error on change
-                calculationResult = null // Clear previous result
+                fieldErrors = it.fieldErrors - CalculateFormField.SENDER_LOCATION,
+                calculationResult = null
             )
         }
     }
@@ -39,8 +37,7 @@ class CalculateViewModel : ViewModel() {
     }
 
     fun onApproxWeightChanged(weight: String) {
-        // Allow only digits and optionally a single decimal point for weight
-        if (weight.isEmpty() || weight.matches(Regex("^\\d*\\.?\\d*\$"))) {
+        if (weight.isEmpty()) {
             _uiState.update {
                 it.copy(
                     approxWeight = weight,
@@ -110,7 +107,7 @@ class CalculateViewModel : ViewModel() {
         } else if (currentState.approxWeight.toDoubleOrNull() == null || currentState.approxWeight.toDouble() <= 0) {
             errors[CalculateFormField.APPROX_WEIGHT] = "Please enter a valid positive weight"
         }
-        if (currentState.selectedPackaging.isBlank()) { // Should not happen if initialized properly
+        if (currentState.selectedPackaging.isBlank()) {
             errors[CalculateFormField.PACKAGING] = "Packaging type is required"
         }
         if (currentState.selectedCategories.isEmpty()) {

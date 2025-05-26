@@ -12,8 +12,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.cmaina.shipments.R
 import com.cmaina.shipments.ui.theme.ShipmentsPurple
 
 val PurpleAppBarContent = Color.White
@@ -26,7 +28,7 @@ fun ShipmentHistoryTopAppBar(
     CenterAlignedTopAppBar(
         title = {
             Text(
-                text = "Shipment history",
+                text = stringResource(R.string.shipment_history),
                 style = MaterialTheme.typography.titleLarge,
                 color = PurpleAppBarContent
             )
@@ -35,7 +37,7 @@ fun ShipmentHistoryTopAppBar(
             IconButton(onClick = onNavigationIconClick) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back",
+                    contentDescription = stringResource(R.string.back),
                     tint = PurpleAppBarContent
                 )
             }

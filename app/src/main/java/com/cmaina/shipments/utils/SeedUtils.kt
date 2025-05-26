@@ -8,8 +8,6 @@ import java.util.Date
 // For previewing or initial testing
 fun getSampleShipments(): List<Shipment> {
     val today = Date() // Current date
-    // Ideally, use a more robust way to set specific dates for testing
-    // For Sep 20, 2023 example (if you need to match exactly):
     val calendar = Calendar.getInstance()
     calendar.set(2023, Calendar.SEPTEMBER, 20)
     val specificDate = calendar.time
@@ -21,17 +19,17 @@ fun getSampleShipments(): List<Shipment> {
             origin = "Atlanta",
             fullDescription = "Your delivery, #NEJ20089934122231 from Atlanta, is arriving today!",
             status = ShipmentStatus.IN_PROGRESS,
-            estimatedArrivalDate = specificDate, // or specificDate
+            estimatedArrivalDate = specificDate,
             price = 1400.00,
             currency = "USD"
         ),
         Shipment(
-            title = "Arriving today!", // The title seems dynamic or contextual in the image
+            title = "Arriving today!",
             trackingNumber = "#NEJ20089934122232",
-            origin = "Atlanta", // Assuming same origin for simplicity
+            origin = "Atlanta",
             fullDescription = "Your delivery, #NEJ20089934122232 from Atlanta, is arriving today!",
             status = ShipmentStatus.PENDING,
-            estimatedArrivalDate = specificDate, // or specificDate
+            estimatedArrivalDate = specificDate,
             price = 650.00,
             currency = "USD"
         ),
@@ -41,7 +39,7 @@ fun getSampleShipments(): List<Shipment> {
             origin = "Atlanta",
             fullDescription = "Your delivery, #NEJ20089934122231 from Atlanta, is arriving today!",
             status = ShipmentStatus.IN_PROGRESS,
-            estimatedArrivalDate = specificDate, // or specificDate
+            estimatedArrivalDate = specificDate,
             price = 1400.00,
             currency = "USD"
         ),
@@ -51,7 +49,7 @@ fun getSampleShipments(): List<Shipment> {
             origin = "Atlanta",
             fullDescription = "Your delivery, #NEJ20089934122231 from Atlanta, is arriving today!",
             status = ShipmentStatus.IN_PROGRESS,
-            estimatedArrivalDate = specificDate, // or specificDate
+            estimatedArrivalDate = specificDate,
             price = 1400.00,
             currency = "USD"
         ),
@@ -71,7 +69,7 @@ fun getSampleShipments(): List<Shipment> {
             origin = "Atlanta",
             fullDescription = "Your delivery, #NEJ20089934122231 from Atlanta, is arriving today!",
             status = ShipmentStatus.IN_PROGRESS,
-            estimatedArrivalDate = specificDate, // or specificDate
+            estimatedArrivalDate = specificDate,
             price = 1400.00,
             currency = "USD"
         ),
@@ -81,7 +79,7 @@ fun getSampleShipments(): List<Shipment> {
             origin = "Atlanta",
             fullDescription = "Your delivery, #NEJ20089934122231 from Atlanta, is arriving today!",
             status = ShipmentStatus.IN_PROGRESS,
-            estimatedArrivalDate = specificDate, // or specificDate
+            estimatedArrivalDate = specificDate,
             price = 1400.00,
             currency = "USD"
         ),

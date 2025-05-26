@@ -30,9 +30,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.cmaina.shipments.R
 import com.cmaina.shipments.domain.model.Shipment
 import com.cmaina.shipments.ui.theme.ShipmentsPurple
 import com.cmaina.shipments.ui.theme.ShipmentsSmokeWhite
@@ -114,7 +116,7 @@ fun ShipmentHistoryContent(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("No shipments to display.", style = MaterialTheme.typography.bodyLarge)
+                Text(stringResource(R.string.no_shipments_to_display), style = MaterialTheme.typography.bodyLarge)
             }
         } else {
             LazyColumn(

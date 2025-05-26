@@ -6,9 +6,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert // Placeholder for the box icon
-import androidx.compose.material.icons.outlined.Autorenew // For in-progress
-import androidx.compose.material.icons.outlined.Schedule // For pending
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.outlined.Autorenew
+import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material3.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,13 +21,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cmaina.shipments.domain.model.Shipment
 import com.cmaina.shipments.domain.model.ShipmentStatus
-import com.cmaina.shipments.ui.theme.ShipmentsSmokeWhite
 import com.cmaina.shipments.utils.getSampleShipments
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-// Helper function to format the date (can be moved to a utility file)
 fun formatDate(date: Date): String {
     val formatter = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
     return formatter.format(date)
@@ -47,20 +45,20 @@ private fun getStatusDisplay(status: ShipmentStatus): StatusDisplay {
         ShipmentStatus.IN_PROGRESS -> StatusDisplay(
             text = "in-progress",
             icon = Icons.Outlined.Autorenew,
-            backgroundColor = Color(0xFFE0F7FA), // Light Cyan/Greenish
-            contentColor = Color(0xFF00796B)    // Dark Cyan/Greenish
+            backgroundColor = Color(0xFFE0F7FA),
+            contentColor = Color(0xFF00796B)
         )
         ShipmentStatus.PENDING -> StatusDisplay(
             text = "Pending",
             icon = Icons.Outlined.Schedule,
-            backgroundColor = Color(0xFFFFF9C4), // Light Yellow/Orangey
-            contentColor = Color(0xFFFBC02D)    // Dark Yellow/Orangey
+            backgroundColor = Color(0xFFFFF9C4),
+            contentColor = Color(0xFFFBC02D)
         )
-        ShipmentStatus.COMPLETED -> StatusDisplay( // Added for completeness
+        ShipmentStatus.COMPLETED -> StatusDisplay(
             text = "Completed",
-            icon = Icons.Outlined.Schedule, // Placeholder, choose appropriate icon
-            backgroundColor = Color(0xFFE8E8E8), // Light Grey
-            contentColor = Color(0xFF5E5E5E)     // Dark Grey
+            icon = Icons.Outlined.Schedule,
+            backgroundColor = Color(0xFFE8E8E8),
+            contentColor = Color(0xFF5E5E5E)
         )
 
         ShipmentStatus.CANCELLED -> TODO()
@@ -187,7 +185,7 @@ fun ShipmentItemCard(
 @Composable
 fun ShipmentItemCardInProgressPreview() {
     val sampleShipment = getSampleShipments().first { it.status == ShipmentStatus.IN_PROGRESS }
-    MaterialTheme { // Wrap with MaterialTheme for preview
+    MaterialTheme {
         ShipmentItemCard(shipment = sampleShipment)
     }
 }
@@ -196,7 +194,7 @@ fun ShipmentItemCardInProgressPreview() {
 @Composable
 fun ShipmentItemCardPendingPreview() {
     val sampleShipment = getSampleShipments().first { it.status == ShipmentStatus.PENDING }
-    MaterialTheme { // Wrap with MaterialTheme for preview
+    MaterialTheme {
         ShipmentItemCard(shipment = sampleShipment)
     }
 }

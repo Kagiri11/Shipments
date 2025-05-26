@@ -1,4 +1,3 @@
-// File: com/cmaina/shipments/ui/screens/home/components/SearchActiveTopBar.kt
 package com.cmaina.shipments.ui.screens.home.components
 
 import androidx.compose.foundation.background
@@ -30,9 +29,11 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.cmaina.shipments.R
 import com.cmaina.shipments.ui.theme.ShipmentsBrown
 import com.cmaina.shipments.ui.theme.ShipmentsPurple
 
@@ -62,7 +63,7 @@ fun SearchActiveTopBar(
         IconButton(onClick = onBackClick) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Back",
+                contentDescription = stringResource(com.cmaina.shipments.R.string.back),
                 tint = Color.White
             )
         }
@@ -82,7 +83,7 @@ fun SearchActiveTopBar(
             decorationBox = { innerTextField ->
                 Box(contentAlignment = Alignment.CenterStart) {
                     if (searchQuery.isEmpty()) {
-                        Text("Search by receipt number...", color = Color.White.copy(alpha = 0.7f))
+                        Text(stringResource(R.string.search_by_receipt_number), color = Color.White.copy(alpha = 0.7f))
                     }
                     innerTextField()
                 }
